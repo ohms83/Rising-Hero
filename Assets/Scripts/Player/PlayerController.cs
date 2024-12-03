@@ -28,24 +28,24 @@ namespace Player
                     return;
                 
                 m_movement.MoveVector = moveVec;
-                Debug.Log($"Performed Move={m_movement.MoveVector} Size={m_movement.MoveVector.magnitude}");
+                // Debug.Log($"Performed Move={m_movement.MoveVector} Size={m_movement.MoveVector.magnitude}");
             }
             else if (context.canceled)
             {
                 m_movement.MoveVector = Vector2.zero;
-                Debug.Log("Canceled");
+                // Debug.Log("Canceled");
             }
         }
 
         public void HandleAttack(InputAction.CallbackContext context)
         {
-            var animator = GetComponent<Animator>();
-            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
-            {
-                return;
-            }
-            
-            animator.SetTrigger(Attack);
+            // var animator = GetComponent<Animator>();
+            // if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+            // {
+            //     return;
+            // }
+            //
+            // animator.SetTrigger(Attack);
         }
     }
 }
