@@ -349,6 +349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
+  animator: {fileID: 5316265227188296175}
 --- !u!114 &8317563397900698454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -361,7 +362,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b6f8acc329475b429fc1921115be13b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitBox: {fileID: 3423540050853685842}
   animator: {fileID: 5316265227188296175}
 --- !u!114 &3988738069969234149
 MonoBehaviour:
@@ -387,6 +387,7 @@ GameObject:
   - component: {fileID: 5577544132486169283}
   - component: {fileID: 1794579165735864290}
   - component: {fileID: 5316265227188296175}
+  - component: {fileID: 1995941552912674001}
   m_Layer: 0
   m_Name: CharacterSprite
   m_TagString: Untagged
@@ -488,3 +489,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1995941552912674001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7454607951817839860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8a17c41bf0e4f046903ddac965c875d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitBox: {fileID: 3423540050853685842}
