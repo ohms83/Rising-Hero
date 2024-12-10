@@ -1,12 +1,13 @@
 using UnityEngine;
 
-namespace Character
+namespace Character.Behaviour
 {
     public class Movement : MonoBehaviour
     {
         // Move speed in unit/second.
         [SerializeField]
         private float moveSpeed = 2;
+        [SerializeField] private Animator animator;
 
         public Vector2 MoveVector
         {
@@ -15,15 +16,20 @@ namespace Character
             {
                 m_moveVector = value;
                 m_isMoving = value != Vector2.zero;
-
-                if (value.x != 0 && m_spriteRenderer != null) 
-                    m_spriteRenderer.flipX = m_moveVector.x < 0;
+            
+                if (animator ? animator : null)
+                {
+                    animator.SetBool(RunningFlag, m_isMoving);
+                }
             }
         }
         private Vector2 m_moveVector;
         
-        private bool m_isMoving = false;
+        private bool m_isMoving;
         private SpriteRenderer m_spriteRenderer;
+        
+        private static readonly int RunningFlag = Animator.StringToHash("IsRunning");
+        
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {

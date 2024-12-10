@@ -1,5 +1,6 @@
 using System;
 using Character;
+using Character.Behaviour;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -16,7 +17,7 @@ namespace Player
 
         private void Start()
         {
-            m_movement = GetComponent<Character.Movement>();
+            m_movement = GetComponent<Movement>();
         }
 
         public void OnMove(InputAction.CallbackContext context)
@@ -39,13 +40,6 @@ namespace Player
 
         public void HandleAttack(InputAction.CallbackContext context)
         {
-            // var animator = GetComponent<Animator>();
-            // if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
-            // {
-            //     return;
-            // }
-            //
-            // animator.SetTrigger(Attack);
         }
     }
 }
