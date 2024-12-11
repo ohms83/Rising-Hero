@@ -23,7 +23,6 @@ namespace Character
             var moveX = m_movement.MoveVector.x;
             if (moveX != 0 && !ReferenceEquals(characterSprite, null))
             {
-                // m_spriteRenderer.flipX = moveX < 0;
                 var yaw = moveX < 0 ? 180f : 0f;
                 characterSprite.transform.eulerAngles = new Vector3(0, yaw, 0);
             }
