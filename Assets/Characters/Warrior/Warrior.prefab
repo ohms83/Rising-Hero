@@ -119,7 +119,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c5729986f5308a4a832d0354dc80d20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterSprite: {fileID: 0}
   damageFlash: {fileID: 0}
+  shakeStrength: {x: 0, y: 0, z: 0}
+  shakeDuration: 0.5
+  vibrato: 20
 --- !u!1 &3423540050853685842
 GameObject:
   m_ObjectHideFlags: 0
@@ -208,10 +212,9 @@ GameObject:
   m_Component:
   - component: {fileID: 38555879887394342}
   - component: {fileID: 3242205051475542543}
-  - component: {fileID: 958725674895554311}
-  - component: {fileID: 5301435299752114027}
-  - component: {fileID: 8317563397900698454}
-  - component: {fileID: 3988738069969234149}
+  - component: {fileID: 5886553544557529929}
+  - component: {fileID: 3428946152318436204}
+  - component: {fileID: 246874471623203172}
   m_Layer: 0
   m_Name: Warrior
   m_TagString: Untagged
@@ -262,8 +265,8 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 958725674895554311}
-        m_TargetAssemblyTypeName: Player.PlayerController, Assembly-CSharp
+      - m_Target: {fileID: 3428946152318436204}
+        m_TargetAssemblyTypeName: Character.Controller.PlayerController, Assembly-CSharp
         m_MethodName: OnMove
         m_Mode: 0
         m_Arguments:
@@ -282,7 +285,7 @@ MonoBehaviour:
     m_ActionName: 'Player/Look[/Mouse/delta]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 958725674895554311}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Player.PlayerController, Assembly-CSharp
         m_MethodName: HandleAttack
         m_Mode: 0
@@ -365,20 +368,7 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &958725674895554311
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3688785769396114256}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60a98ac084b60354b9f9cd10f63504f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  impulseTolerance: 0.3
---- !u!114 &5301435299752114027
+--- !u!114 &5886553544557529929
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -392,7 +382,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 2
   animator: {fileID: 5316265227188296175}
---- !u!114 &8317563397900698454
+--- !u!114 &3428946152318436204
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -401,11 +391,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3688785769396114256}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b6f8acc329475b429fc1921115be13b, type: 3}
+  m_Script: {fileID: 11500000, guid: 60a98ac084b60354b9f9cd10f63504f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 5316265227188296175}
---- !u!114 &3988738069969234149
+  impulseTolerance: 0.3
+--- !u!114 &246874471623203172
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -414,10 +404,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 3688785769396114256}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 599b01c5aac1f7e4195a0158b50258cf, type: 3}
+  m_Script: {fileID: 11500000, guid: 0c4b7841aaeb74649870e1207c564743, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats:
+    maxHealth: 100
   characterSprite: {fileID: 1794579165735864290}
+  skillTypes: 00000000
 --- !u!1 &7454607951817839860
 GameObject:
   m_ObjectHideFlags: 0
