@@ -5,7 +5,6 @@ namespace Gameplay.Battle
     public class HitBox : MonoBehaviour
     {
         [SerializeField] private GameObject hitBox;
-        // public GameObject HitBox => hitBox;
         
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         private void Start()

@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Effect
+namespace Effect.Battle
 {
     [RequireComponent(typeof(SpriteRenderer))]
     public class DamageFlash : MonoBehaviour

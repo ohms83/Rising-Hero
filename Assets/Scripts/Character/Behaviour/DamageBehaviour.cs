@@ -1,6 +1,5 @@
-using System;
 using DG.Tweening;
-using Effect;
+using Effect.Battle;
 using UnityEngine;
 
 namespace Character.Behaviour
@@ -13,6 +12,8 @@ namespace Character.Behaviour
         [SerializeField] private Vector3 shakeStrength;
         [SerializeField] private float shakeDuration = 0.5f;
         [SerializeField] private int vibrato = 20;
+        [SerializeField] private DamageNumberPool damageNumberPool;
+        [SerializeField] private Transform damageNumberRoot;
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (damageFlash != null)
@@ -26,6 +27,15 @@ namespace Character.Behaviour
                     shakeDuration,
                     shakeStrength,
                     vibrato);
+            }
+
+            if (damageNumberPool != null)
+            {
+                var damageNumber = damageNumberPool.ObjectPool.Get();
+                
+                if (damageNumberRoot)
+                    damageNumber.transform.parent = damageNumberRoot;
+                damageNumber.transform.localPosition = Vector3.zero;
             }
         }
     }
