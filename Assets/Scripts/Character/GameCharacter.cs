@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Character.Behaviour;
@@ -15,6 +16,7 @@ namespace Character
         [SerializeField] private Stats stats;
         [SerializeField] private SpriteRenderer characterSprite;
         [SerializeField] private CharacterAnimation characterAnimation;
+        [SerializeField] private bool destroyOnDeath = true;
         public SpriteRenderer CharacterSprite => characterSprite;
         public CharacterAnimation CharacterAnimation => characterAnimation;
 
@@ -50,7 +52,21 @@ namespace Character
         {
             if (stats.IsDeath)
                 return;
+            
             stats.Health -= damage;
+
+            if (!stats.IsDeath)
+                return;
+            
+            characterAnimation.Death();
+            if (destroyOnDeath)
+                StartCoroutine(DeathCoroutine());
+        }
+
+        private IEnumerator DeathCoroutine()
+        {
+            yield return new WaitForSeconds(0.5f);
+            Destroy(gameObject);
         }
 
         public void EquipSkill(SkillType skillType)
@@ -73,6 +89,8 @@ namespace Character
             {
                 Skills.Add(skill);
             }
+            
+            stats.Init();
         }
 
         // Update is called once per frame

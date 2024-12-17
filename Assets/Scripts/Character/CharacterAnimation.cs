@@ -10,7 +10,9 @@ namespace Character
         public delegate void AnimationEventBool(CharacterAnimation sender, bool value);
         public AnimationEventBool HitBoxAnimationEvent;
         
-        private static readonly int AttackTrigger = Animator.StringToHash("Attack");
+        private static readonly int AttackHash = Animator.StringToHash("Attack");
+        private static readonly int DeathHash = Animator.StringToHash("Death");
+        private static readonly int IsDeathHash = Animator.StringToHash("IsDeath");
         
         private Animator m_animator;
         private void Start()
@@ -24,7 +26,13 @@ namespace Character
         /// </summary>
         public void Attack()
         {
-            m_animator.SetTrigger(AttackTrigger);
+            m_animator.SetTrigger(AttackHash);
+        }
+
+        public void Death()
+        {
+            m_animator.SetBool(IsDeathHash, true);
+            m_animator.SetTrigger(DeathHash);
         }
 
         private void OnHitBoxEnabled()

@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -6,6 +7,7 @@ namespace Effect.Battle
     [RequireComponent(typeof(Animation))]
     public class DamageNumber : MonoBehaviour
     {
+        [SerializeField] private TextMeshPro text; 
         public delegate void DamageNumberDelegate(DamageNumber damageNumber);
         public DamageNumberDelegate OnFinishedAnimate;
         
@@ -43,6 +45,11 @@ namespace Effect.Battle
         {
             m_animation.Stop();
             enabled = false;
+        }
+
+        public void SetDamage(int damage)
+        {
+            text.SetText($"{damage}");
         }
     }
 }

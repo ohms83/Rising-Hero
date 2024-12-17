@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7319948394444048140}
   - component: {fileID: 894425088740085033}
   - component: {fileID: 2172997920091498865}
+  - component: {fileID: 1076892019956090099}
   m_Layer: 0
   m_Name: CharacterSprite
   m_TagString: Untagged
@@ -100,7 +101,7 @@ Animator:
   m_GameObject: {fileID: 267300893959691077}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b95265f99b6d90e438df1308a89c8bab, type: 2}
+  m_Controller: {fileID: 9100000, guid: b0d8d063e1fb0ea4980c4207f0ff226d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -157,6 +158,18 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1076892019956090099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 267300893959691077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5571a4daf334f88bb831155b57fdcbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3379469722985540606
 GameObject:
   m_ObjectHideFlags: 0
@@ -276,12 +289,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c5729986f5308a4a832d0354dc80d20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterSprite: {fileID: 7319948394444048140}
+  ownerCharacter: {fileID: 8587452238183192970}
   damageFlash: {fileID: 2172997920091498865}
   shakeStrength: {x: 0.1, y: 0.1, z: 0}
   shakeDuration: 0.5
   vibrato: 20
-  damageNumberPool: {fileID: 0}
   damageNumberRoot: {fileID: 2560882081173054961}
 --- !u!1 &4651299003644942417
 GameObject:
@@ -377,5 +389,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats:
     maxHealth: 50
+    attack: 0
+    defence: 0
+    moveSpeed: 0
   characterSprite: {fileID: 7319948394444048140}
+  characterAnimation: {fileID: 1076892019956090099}
   skillTypes: 

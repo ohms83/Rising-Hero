@@ -119,12 +119,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c5729986f5308a4a832d0354dc80d20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterSprite: {fileID: 0}
-  damageFlash: {fileID: 0}
+  ownerCharacter: {fileID: 246874471623203172}
+  damageFlash: {fileID: 8162601288110421679}
   shakeStrength: {x: 0, y: 0, z: 0}
   shakeDuration: 0.5
   vibrato: 20
-  damageNumberPool: {fileID: 0}
   damageNumberRoot: {fileID: 0}
 --- !u!1 &3688785769396114256
 GameObject:
@@ -339,6 +338,7 @@ MonoBehaviour:
     moveSpeed: 2
   characterSprite: {fileID: 1794579165735864290}
   characterAnimation: {fileID: 6115172668595553369}
+  destroyOnDeath: 0
   skillTypes: 00000000
 --- !u!114 &7293132784368565057
 MonoBehaviour:
