@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6281135812576616450}
-  - component: {fileID: 1862705755764815911}
   - component: {fileID: 168512077457789359}
+  - component: {fileID: -528452121079062625}
   m_Layer: 0
   m_Name: ShortSword
   m_TagString: Untagged
@@ -33,25 +33,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1862705755764815911
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6776555265503637736}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4ea68449c6274a4e88d1cbf5e2c97fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 0
-  stats:
-    maxHealth: 0
-    attack: 0
-    defence: 0
-    moveSpeed: 0
-  skill: 0
 --- !u!61 &168512077457789359
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -98,3 +79,23 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.8, y: 1.2}
   m_EdgeRadius: 0
+--- !u!114 &-528452121079062625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6776555265503637736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4b3f18608bc47118c8286c65f6c737a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+  stats:
+    maxHealth: 0
+    attack: 10
+    defence: 0
+    moveSpeed: 0
+  skill: 1
+  hitBox: {fileID: 168512077457789359}

@@ -14,6 +14,9 @@ namespace Character
     {
         [SerializeField] private Stats stats;
         [SerializeField] private SpriteRenderer characterSprite;
+        [SerializeField] private CharacterAnimation characterAnimation;
+        public SpriteRenderer CharacterSprite => characterSprite;
+        public CharacterAnimation CharacterAnimation => characterAnimation;
 
         public Stats Stats => stats;
 
@@ -23,22 +26,39 @@ namespace Character
         #endregion
 
         #region Equipment
-        private Dictionary<EquipmentType, Equipment> m_equipments;
+        private readonly Dictionary<EquipmentType, Equipment> m_equipments = new ();
         
         public Stats CombinedStats { get; private set; }
-        public void Equip(EquipmentType type, Equipment newEquipment)
+        public void Equip(Equipment newEquipment)
         {
-            m_equipments.Add(type, newEquipment);
+            m_equipments.Add(newEquipment.Type, newEquipment);
 
             CombinedStats = Stats;
             foreach (var equipment in m_equipments.Values)
             {
                 CombinedStats += equipment.Stats;
+
+                if (SkillBase.IsValidSkillType(equipment.Skill))
+                    EquipSkill(equipment.Skill);
             }
 
-            newEquipment.Equipper = this;
+            newEquipment.Owner = this;
         }
         #endregion
+
+        public void TakeDamage(int damage)
+        {
+            if (stats.IsDeath)
+                return;
+            stats.Health -= damage;
+        }
+
+        public void EquipSkill(SkillType skillType)
+        {
+            var skill = SkillFactory.CreateSkill(skillType, this);
+            if (skill != null)
+                Skills.Add(skill);
+        }
 
         private Movement m_movement;
         // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -64,13 +84,6 @@ namespace Character
                 var yaw = moveX < 0 ? 180f : 0f;
                 characterSprite.transform.eulerAngles = new Vector3(0, yaw, 0);
             }
-        }
-
-        public void TakeDamage(int damage)
-        {
-            if (stats.IsDeath)
-                return;
-            stats.Health -= damage;
         }
     }
 }

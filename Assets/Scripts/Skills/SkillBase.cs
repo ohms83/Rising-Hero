@@ -72,6 +72,11 @@ namespace Skills
                     break;
             }
         }
+        
+        public static bool IsValidSkillType(SkillType skillType)
+        {
+            return skillType != SkillType.None && skillType != SkillType.Max;
+        }
     }
 
     public interface ISkillCreator

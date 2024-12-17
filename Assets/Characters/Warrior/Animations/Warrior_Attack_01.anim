@@ -86,14 +86,14 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.14285715
-    functionName: OnHitBoxEnable
+    functionName: OnHitBoxEnabled
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.35714287
-    functionName: OnHitBoxDisable
+    functionName: OnHitBoxDisabled
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
