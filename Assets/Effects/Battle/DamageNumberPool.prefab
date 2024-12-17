@@ -46,4 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectPrefab: {fileID: -6931368678324266565, guid: f620e0787e491b34f88f5aa1842341c1, type: 3}
   objectName: damage_number
-  poolSize: 50
+  defaultPoolSize: 50

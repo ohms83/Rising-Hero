@@ -20,25 +20,29 @@ namespace Pattern
 
     public class MonoSingleton<T> : MonoBehaviour where T : Component
     {
-        private static MonoSingleton<T> s_instance;
+        private static T s_instance;
 
-        public static MonoSingleton<T> Instance
+        public static T Instance
         {
             get
             {
                 if (s_instance != null)
                     return s_instance;
                 
-                var gameObject = new GameObject(nameof(T));
-                s_instance = gameObject.AddComponent<MonoSingleton<T>>();
+                var gameObject = new GameObject(typeof(T).Name);
+                s_instance = gameObject.AddComponent<T>();
                 return s_instance;
             }
         }
 
-        protected void Start()
+        private void Start()
         {
             if (s_instance == null)
-                s_instance = this;
+                s_instance = GetComponent<T>();
+
+            OnStart();
         }
+        
+        protected virtual void OnStart() {}
     }
 }

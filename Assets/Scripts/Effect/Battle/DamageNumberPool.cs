@@ -1,9 +1,11 @@
+using Pattern;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Pool;
 
 namespace Effect.Battle
 {
-    public class DamageNumberPool : MonoBehaviour
+    public class DamageNumberPool : MonoSingleton<DamageNumberPool>
     {
         [SerializeField] private DamageNumber objectPrefab;
         /// <summary>
@@ -22,6 +24,8 @@ namespace Effect.Battle
 
         private DamageNumber OnCreatePoolItem()
         {
+            Assert.IsNotNull(objectPrefab);
+            
             var newObject = Instantiate(objectPrefab, transform, true);
             newObject.name = $"{objectName}_{m_objectCount++}";
             newObject.Init();
@@ -56,8 +60,8 @@ namespace Effect.Battle
                 true,
                 defaultPoolSize);
         }
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        private void Start()
+        
+        protected override void OnStart()
         {
             InitPool();
         }
