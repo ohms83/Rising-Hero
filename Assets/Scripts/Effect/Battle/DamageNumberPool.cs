@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Pattern;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -52,13 +54,29 @@ namespace Effect.Battle
 
         private IObjectPool<DamageNumber> InitPool()
         {
-            return m_pool ??= new ObjectPool<DamageNumber>(
+            m_pool ??= new ObjectPool<DamageNumber>(
                 OnCreatePoolItem,
                 OnTakeFromPool,
                 OnReturnedToPool,
                 null,
                 true,
                 defaultPoolSize);
+
+            // Warm up the pool by pre-allocating items
+            List<DamageNumber> items = new(); 
+            for (int i = 0; i < defaultPoolSize; ++i)
+            {
+                var item = ObjectPool.Get();
+                item.SetDamage(999999);
+                items.Add(item);
+            }
+            
+            foreach (var item in items)
+            {
+                ObjectPool.Release(item);
+            }
+
+            return m_pool;
         }
         
         protected override void OnStart()
