@@ -1,6 +1,7 @@
 using System;
 using DG.Tweening;
 using Effect.Battle;
+using Gameplay.Battle;
 using Gameplay.Equipment;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -52,7 +53,7 @@ namespace Character.Behaviour
             if (weapon == null || damageNumberRoot == null)
                 return;
             
-            var damage = weapon.GetDamage();
+            var damage = DamageCalculator.CalculateDamage(weapon.CombinedStats, ownerCharacter.CombinedStats);
             var damageNumber = DamageNumberPool.Instance.ObjectPool.Get();
             var damageNumberTransform = damageNumber.transform;
             damageNumberTransform.parent = damageNumberRoot;

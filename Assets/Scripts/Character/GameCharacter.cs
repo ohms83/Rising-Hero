@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,7 +66,7 @@ namespace Character
 
         private IEnumerator DeathCoroutine()
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1.0f);
             Destroy(gameObject);
         }
 
@@ -77,6 +78,12 @@ namespace Character
         }
 
         private Movement m_movement;
+
+        protected void Awake()
+        {
+            CombinedStats = Stats;
+        }
+
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         protected virtual void Start()
         {
@@ -90,7 +97,7 @@ namespace Character
                 Skills.Add(skill);
             }
             
-            stats.Init();
+            stats.Reset();
         }
 
         // Update is called once per frame

@@ -390,8 +390,9 @@ MonoBehaviour:
   stats:
     maxHealth: 50
     attack: 0
-    defence: 0
+    defence: 3
     moveSpeed: 0
   characterSprite: {fileID: 7319948394444048140}
   characterAnimation: {fileID: 1076892019956090099}
+  destroyOnDeath: 1
   skillTypes: 

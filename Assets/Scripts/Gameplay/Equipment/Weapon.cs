@@ -14,12 +14,7 @@ namespace Gameplay.Equipment
             BindHitBoxAnimationEvent((GameCharacter)Owner, false);
         }
 
-        public int GetDamage()
-        {
-            return Owner != null ? Owner.CombinedStats.Attack : 0;
-        }
-
-        public void EnableHitBox(bool isEnabled)
+        private void EnableHitBox(bool isEnabled)
         {
             if (hitBox)
                 hitBox.enabled = isEnabled;

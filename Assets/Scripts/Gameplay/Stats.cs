@@ -47,7 +47,10 @@ namespace Gameplay
             set => moveSpeed = value;
         }
 
-        public void Init()
+        /// <summary>
+        /// Reset the stats to their initial values
+        /// </summary>
+        public void Reset()
         {
             Health = MaxHealth;
         }

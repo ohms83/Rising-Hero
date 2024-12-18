@@ -63,5 +63,7 @@ namespace Gameplay.Equipment
             if (ownerObjcet != null)
                 transform.parent = null;
         }
+
+        public Stats CombinedStats => Owner?.CombinedStats ?? Stats;
     }
 }
