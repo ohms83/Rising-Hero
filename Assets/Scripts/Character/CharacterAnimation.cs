@@ -13,6 +13,7 @@ namespace Character
         private static readonly int AttackHash = Animator.StringToHash("Attack");
         private static readonly int DeathHash = Animator.StringToHash("Death");
         private static readonly int IsDeathHash = Animator.StringToHash("IsDeath");
+        private static readonly int IsRunningHash = Animator.StringToHash("IsRunning");
         
         private Animator m_animator;
         private void Start()
@@ -27,6 +28,11 @@ namespace Character
         public void Attack()
         {
             m_animator.SetTrigger(AttackHash);
+        }
+
+        public void SetRunningFlag(bool flag)
+        {
+            m_animator.SetBool(IsRunningHash, flag);
         }
 
         public void Death()

@@ -64,7 +64,7 @@ namespace Effect.Battle
 
             // Warm up the pool by pre-allocating items
             List<DamageNumber> items = new(); 
-            for (int i = 0; i < defaultPoolSize; ++i)
+            for (var i = 0; i < defaultPoolSize; ++i)
             {
                 var item = ObjectPool.Get();
                 item.SetDamage(999999);

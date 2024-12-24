@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 6011756561942742746}
   - component: {fileID: 4752248312747504894}
   - component: {fileID: 6263193299971966798}
+  - component: {fileID: 1097957715992231318}
+  - component: {fileID: 3134374205631507828}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -232,7 +234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60a98ac084b60354b9f9cd10f63504f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  impulseTolerance: 0.3
 --- !u!95 &6263193299971966798
 Animator:
   serializedVersion: 7
@@ -255,3 +257,38 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1097957715992231318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3763278404494539937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05a99179a5901b74f99693591dd8832f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 2
+  animation: {fileID: 0}
+--- !u!114 &3134374205631507828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3763278404494539937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 599b01c5aac1f7e4195a0158b50258cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats:
+    maxHealth: 0
+    attack: 0
+    defence: 0
+    moveSpeed: 0
+  characterSprite: {fileID: 0}
+  characterAnimation: {fileID: 0}
+  destroyOnDeath: 1
+  skillTypes: 

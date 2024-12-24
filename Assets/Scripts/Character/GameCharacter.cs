@@ -46,6 +46,8 @@ namespace Character
             }
 
             newEquipment.Owner = this;
+            newEquipment.gameObject.layer = gameObject.layer;
+
         }
         #endregion
 
@@ -70,9 +72,13 @@ namespace Character
             Destroy(gameObject);
         }
 
-        public void EquipSkill(SkillType skillType)
+        protected virtual void EquipSkill(SkillType skillType)
         {
-            var skill = SkillFactory.CreateSkill(skillType, this);
+            EquipSkill(SkillFactory.CreateSkill(skillType, this));
+        }
+        
+        protected virtual void EquipSkill(SkillBase skill)
+        {
             if (skill != null)
                 Skills.Add(skill);
         }

@@ -33,7 +33,6 @@ namespace Effect.Battle
             }
             
             m_renderer.material.SetFloat(TintPower, 0);
-            yield break;
         }
 
         public void FlashSprite()

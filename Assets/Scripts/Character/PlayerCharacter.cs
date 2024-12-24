@@ -1,4 +1,5 @@
 using Character.Controller;
+using Skills;
 using UnityEngine;
 
 namespace Character
@@ -6,15 +7,10 @@ namespace Character
     [RequireComponent(typeof(PlayerController))]
     public class PlayerCharacter : GameCharacter
     {
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        protected override void Start()
+        protected override void EquipSkill(SkillBase skill)
         {
-            base.Start();
-            
-            foreach (var skill in Skills)
-            {
-                skill.IsAutoCast = true;
-            }
+            base.EquipSkill(skill);
+            skill.IsAutoCast = true;
         }
     }
 }

@@ -48,6 +48,11 @@ namespace Character.Behaviour
             TakeDamage(other.GetComponent<Weapon>());
         }
 
+        private void OnCollisionEnter2D(Collision2D other)
+        {
+            Debug.Log($"Contact count = {other.contactCount}");
+        }
+
         private void TakeDamage(Weapon weapon)
         { 
             if (weapon == null || damageNumberRoot == null)

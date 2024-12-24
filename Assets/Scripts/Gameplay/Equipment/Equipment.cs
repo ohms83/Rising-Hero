@@ -59,8 +59,8 @@ namespace Gameplay.Equipment
         /// <param name="currentOwner">The current owner that's equipping this equipment</param>
         protected virtual void OnOwnerUnset([NotNull] IEquipable currentOwner)
         {
-            var ownerObjcet = (MonoBehaviour)currentOwner;
-            if (ownerObjcet != null)
+            var ownerObject = (MonoBehaviour)currentOwner;
+            if (ownerObject != null)
                 transform.parent = null;
         }
 

@@ -1,13 +1,15 @@
+using System;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Character.Behaviour
 {
+    [RequireComponent(typeof(Rigidbody2D))]
     public class Movement : MonoBehaviour
     {
         // Move speed in unit/second.
-        [SerializeField]
-        private float moveSpeed = 2;
-        [SerializeField] private Animator animator;
+        [SerializeField] private float moveSpeed = 2;
+        [SerializeField] private CharacterAnimation characterAnimation;
 
         public Vector2 MoveVector
         {
@@ -17,32 +19,28 @@ namespace Character.Behaviour
                 m_moveVector = value;
                 m_isMoving = value != Vector2.zero;
             
-                if (animator ? animator : null)
+                if (characterAnimation ? characterAnimation : null)
                 {
-                    animator.SetBool(RunningFlag, m_isMoving);
+                    characterAnimation.SetRunningFlag(m_isMoving);
                 }
+
+                m_rigidbody2D.linearVelocity = value * moveSpeed;
             }
         }
         private Vector2 m_moveVector;
         
         private bool m_isMoving;
-        private SpriteRenderer m_spriteRenderer;
-        
-        private static readonly int RunningFlag = Animator.StringToHash("IsRunning");
-        
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
-        {
-            m_spriteRenderer = GetComponent<SpriteRenderer>();
-        }
+        private Rigidbody2D m_rigidbody2D;
+        private Collider2D m_collider2D;
 
-        // Update is called once per frame
-        void Update()
+        private void Awake()
         {
-            if (m_isMoving)
-            {
-                transform.Translate(MoveVector * (moveSpeed * Time.deltaTime));
-            }
+            m_rigidbody2D = GetComponent<Rigidbody2D>();
+            Assert.IsNotNull(m_rigidbody2D);
+
+            m_rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
+            m_rigidbody2D.useFullKinematicContacts = true;
+            m_rigidbody2D.freezeRotation = true;
         }
     }
 }
