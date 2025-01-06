@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Character.Behaviour;
@@ -17,18 +15,19 @@ namespace Character
         [SerializeField] private Stats stats;
         [SerializeField] private SpriteRenderer characterSprite;
         [SerializeField] private CharacterAnimation characterAnimation;
-        [SerializeField] private bool destroyOnDeath = true;
         public SpriteRenderer CharacterSprite => characterSprite;
         public CharacterAnimation CharacterAnimation => characterAnimation;
 
         public Stats Stats => stats;
 
         #region Skill
-        [SerializeField] private List<SkillType> skillTypes; 
-        protected readonly HashSet<SkillBase> Skills = new();
+        [SerializeField] private List<SkillType> skillTypes;
+        [SerializeField] private bool autoCastAllSkills = false; 
+        private readonly HashSet<SkillBase> Skills = new();
         #endregion
 
         #region Equipment
+        [SerializeField] private List<Equipment> defaultEquipments = new();
         private readonly Dictionary<EquipmentType, Equipment> m_equipments = new ();
         
         public Stats CombinedStats { get; private set; }
@@ -42,7 +41,7 @@ namespace Character
                 CombinedStats += equipment.Stats;
 
                 if (SkillBase.IsValidSkillType(equipment.Skill))
-                    EquipSkill(equipment.Skill);
+                    EquipSkillType(equipment.Skill);
             }
 
             newEquipment.Owner = this;
@@ -57,33 +56,30 @@ namespace Character
                 return;
             
             stats.Health -= damage;
-
-            if (!stats.IsDeath)
-                return;
-            
-            characterAnimation.Death();
-            if (destroyOnDeath)
-                StartCoroutine(DeathCoroutine());
         }
 
-        private IEnumerator DeathCoroutine()
-        {
-            yield return new WaitForSeconds(1.0f);
-            Destroy(gameObject);
-        }
-
-        protected virtual void EquipSkill(SkillType skillType)
+        /// <summary>
+        /// Equip a skill from the specified skill type
+        /// </summary>
+        /// <param name="skillType">A SkillType enum indicating the equipping skill</param>
+        private void EquipSkillType(SkillType skillType)
         {
             EquipSkill(SkillFactory.CreateSkill(skillType, this));
         }
         
         protected virtual void EquipSkill(SkillBase skill)
         {
-            if (skill != null)
-                Skills.Add(skill);
+            if (skill == null)
+                return;
+            
+            Skills.Add(skill);
+
+            if (autoCastAllSkills)
+                skill.IsAutoCast = true;
         }
 
         private Movement m_movement;
+        private DeathBehaviour m_deathBehaviour;
 
         protected void Awake()
         {
@@ -100,10 +96,19 @@ namespace Character
                          .Select(skillType => SkillFactory.CreateSkill(skillType, this))
                          .Where(skill => skill != null))
             {
-                Skills.Add(skill);
+                EquipSkill(skill);
+            }
+
+            foreach (var equipment in defaultEquipments)
+            {
+                Equip(Instantiate(equipment));
             }
             
             stats.Reset();
+            
+            m_deathBehaviour = GetComponent<DeathBehaviour>();
+            if (m_deathBehaviour == null)
+                Debug.LogAssertion($"{gameObject} has no DeathBehaviour attache");
         }
 
         // Update is called once per frame
@@ -115,6 +120,9 @@ namespace Character
                 var yaw = moveX < 0 ? 180f : 0f;
                 characterSprite.transform.eulerAngles = new Vector3(0, yaw, 0);
             }
+            
+            if (stats.IsDeath && !m_deathBehaviour.IsDeathSequenceStarted)
+                m_deathBehaviour.BeginDeathSequence();
         }
     }
 }

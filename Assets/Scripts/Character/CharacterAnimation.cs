@@ -16,7 +16,7 @@ namespace Character
         private static readonly int IsRunningHash = Animator.StringToHash("IsRunning");
         
         private Animator m_animator;
-        private void Start()
+        private void Awake()
         {
             m_animator = GetComponent<Animator>();
             Assert.IsNotNull(m_animator);

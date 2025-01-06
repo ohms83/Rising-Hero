@@ -1,9 +1,14 @@
 using UnityEngine;
 
-namespace Manager
+namespace Character.Controller
 {
-    public class GameplayManager : MonoBehaviour
+    public class AIController : ControllerBase
     {
+        public GameCharacter PlayerCharacter
+        {
+            get;
+            set;
+        }
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
