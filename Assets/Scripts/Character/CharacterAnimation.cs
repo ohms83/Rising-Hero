@@ -9,7 +9,8 @@ namespace Character
     {
         public delegate void AnimationEventBool(CharacterAnimation sender, bool value);
         public AnimationEventBool HitBoxAnimationEvent;
-        
+
+        public static readonly string AttackState = "Attack";
         private static readonly int AttackHash = Animator.StringToHash("Attack");
         private static readonly int DeathHash = Animator.StringToHash("Death");
         private static readonly int IsDeathHash = Animator.StringToHash("IsDeath");
@@ -49,6 +50,11 @@ namespace Character
         private void OnHitBoxDisabled()
         {
             HitBoxAnimationEvent?.Invoke(this, false);
+        }
+
+        public bool IsAnimState(string animName, int layerIndex = 0)
+        {
+            return m_animator.GetCurrentAnimatorStateInfo(layerIndex).IsName(animName);
         }
     }
 }

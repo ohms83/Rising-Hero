@@ -67,7 +67,7 @@ namespace Character
             EquipSkill(SkillFactory.CreateSkill(skillType, this));
         }
         
-        protected virtual void EquipSkill(SkillBase skill)
+        private void EquipSkill(SkillBase skill)
         {
             if (skill == null)
                 return;
@@ -77,8 +77,12 @@ namespace Character
             if (autoCastAllSkills)
                 skill.IsAutoCast = true;
         }
-
-        private Movement m_movement;
+        
+        public Movement Movement
+        {
+            get;
+            private set;
+        }
         private DeathBehaviour m_deathBehaviour;
 
         protected void Awake()
@@ -89,8 +93,8 @@ namespace Character
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         protected virtual void Start()
         {
-            m_movement = GetComponent<Movement>();
-            Assert.IsNotNull(m_movement);
+            Movement = GetComponent<Movement>();
+            Assert.IsNotNull(Movement);
             
             foreach (var skill in skillTypes
                          .Select(skillType => SkillFactory.CreateSkill(skillType, this))
@@ -114,15 +118,18 @@ namespace Character
         // Update is called once per frame
         private void Update()
         {
-            var moveX = m_movement.MoveVector.x;
+            var moveX = Movement.MoveVector.x;
             if (moveX != 0 && !ReferenceEquals(characterSprite, null))
             {
                 var yaw = moveX < 0 ? 180f : 0f;
                 characterSprite.transform.eulerAngles = new Vector3(0, yaw, 0);
             }
-            
+
             if (stats.IsDeath && !m_deathBehaviour.IsDeathSequenceStarted)
+            {
                 m_deathBehaviour.BeginDeathSequence();
+                Movement.MoveVector = Vector2.zero;
+            }
         }
     }
 }

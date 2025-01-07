@@ -16,8 +16,10 @@ namespace Character.Controller
         
         private Movement m_movement;
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
+            
             m_movement = GetComponent<Movement>();
 
             var playerInput = GetComponent<PlayerInput>();
