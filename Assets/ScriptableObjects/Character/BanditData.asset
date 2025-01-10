@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1982d1adbf195624b843831ea8272d00, type: 3}
+  m_Name: BanditData
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 35957944120000693, guid: 79cacb237f693a9479ce4c06ad198737, type: 3}
+  sprite: {fileID: 21300000, guid: f2ed27d6c1c3ccc48959bcca269d88f0, type: 3}
+  animController: {fileID: 9100000, guid: b95265f99b6d90e438df1308a89c8bab, type: 2}
+  stats:
+    maxHealth: 30
+    attack: 6
+    defence: 5
+    moveSpeed: 2
+  defaultEquipments:
+  - {fileID: -528452121079062625, guid: c937026fdd35b1343b4c230b3c3dd0de, type: 3}
+  hitBoxes: []
+  hurtBoxes: []

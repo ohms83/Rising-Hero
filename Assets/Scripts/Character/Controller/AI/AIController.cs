@@ -26,7 +26,7 @@ namespace Character.Controller.AI
             StateMachine = new StateMachine(this);
 
             StateMachine.AddState(AIStateEnum.Idle, new IdleState {
-                AggroDistance = 4
+                AggroDistance = 20
             });
             StateMachine.AddState(AIStateEnum.Aggro, new AggroState {
                 DesiredDistance = 1

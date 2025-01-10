@@ -2232,7 +2232,7 @@ GameObject:
   - component: {fileID: 4121424605533953421}
   m_Layer: 0
   m_Name: TileMap_Grass
-  m_TagString: Untagged
+  m_TagString: TileMap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -1,11 +1,13 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Character.Behaviour;
+using Character.Controller;
 using Gameplay;
 using Gameplay.Equipment;
 using Skills;
 using UnityEngine;
-using UnityEngine.Assertions;
+using UnityEngine.Events;
 
 namespace Character
 {
@@ -20,13 +22,22 @@ namespace Character
 
         public Stats Stats => stats;
 
+        public ControllerBase Controller
+        {
+            get;
+            private set;
+        }
+
         #region Skill
+        
         [SerializeField] private List<SkillType> skillTypes;
         [SerializeField] private bool autoCastAllSkills = false; 
         private readonly HashSet<SkillBase> Skills = new();
+        
         #endregion
 
         #region Equipment
+        
         [SerializeField] private List<Equipment> defaultEquipments = new();
         private readonly Dictionary<EquipmentType, Equipment> m_equipments = new ();
         
@@ -48,7 +59,65 @@ namespace Character
             newEquipment.gameObject.layer = gameObject.layer;
 
         }
+        
         #endregion
+
+        #region Event
+        
+        public Action<GameCharacter> onCharacterDestroyed;
+
+        #endregion
+
+        protected void Awake()
+        {
+            CombinedStats = Stats;
+            Controller = GetComponent<ControllerBase>();
+            Movement = GetComponent<Movement>();
+            
+            m_deathBehaviour = GetComponent<DeathBehaviour>();
+            if (m_deathBehaviour == null)
+                Debug.LogAssertion($"{gameObject} has no DeathBehaviour attache");
+        }
+
+        // Start is called once before the first execution of Update after the MonoBehaviour is created
+        protected virtual void Start()
+        {
+            foreach (var skill in skillTypes
+                         .Select(skillType => SkillFactory.CreateSkill(skillType, this))
+                         .Where(skill => skill != null))
+            {
+                EquipSkill(skill);
+            }
+
+            foreach (var equipment in defaultEquipments)
+            {
+                Equip(Instantiate(equipment));
+            }
+            
+            stats.Reset();
+        }
+
+        // Update is called once per frame
+        private void Update()
+        {
+            var moveX = Movement.MoveVector.x;
+            if (moveX != 0 && !ReferenceEquals(characterSprite, null))
+            {
+                var yaw = moveX < 0 ? 180f : 0f;
+                characterSprite.transform.eulerAngles = new Vector3(0, yaw, 0);
+            }
+
+            if (stats.IsDeath && !m_deathBehaviour.IsDeathSequenceStarted)
+            {
+                m_deathBehaviour.BeginDeathSequence();
+                Movement.MoveVector = Vector2.zero;
+            }
+        }
+
+        private void OnDestroy()
+        {
+            onCharacterDestroyed?.Invoke(this);
+        }
 
         public void TakeDamage(int damage)
         {
@@ -84,52 +153,5 @@ namespace Character
             private set;
         }
         private DeathBehaviour m_deathBehaviour;
-
-        protected void Awake()
-        {
-            CombinedStats = Stats;
-        }
-
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        protected virtual void Start()
-        {
-            Movement = GetComponent<Movement>();
-            Assert.IsNotNull(Movement);
-            
-            foreach (var skill in skillTypes
-                         .Select(skillType => SkillFactory.CreateSkill(skillType, this))
-                         .Where(skill => skill != null))
-            {
-                EquipSkill(skill);
-            }
-
-            foreach (var equipment in defaultEquipments)
-            {
-                Equip(Instantiate(equipment));
-            }
-            
-            stats.Reset();
-            
-            m_deathBehaviour = GetComponent<DeathBehaviour>();
-            if (m_deathBehaviour == null)
-                Debug.LogAssertion($"{gameObject} has no DeathBehaviour attache");
-        }
-
-        // Update is called once per frame
-        private void Update()
-        {
-            var moveX = Movement.MoveVector.x;
-            if (moveX != 0 && !ReferenceEquals(characterSprite, null))
-            {
-                var yaw = moveX < 0 ? 180f : 0f;
-                characterSprite.transform.eulerAngles = new Vector3(0, yaw, 0);
-            }
-
-            if (stats.IsDeath && !m_deathBehaviour.IsDeathSequenceStarted)
-            {
-                m_deathBehaviour.BeginDeathSequence();
-                Movement.MoveVector = Vector2.zero;
-            }
-        }
     }
 }
