@@ -13,6 +13,10 @@ PrefabInstance:
       value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 160537676259433134, guid: c133cef6c7b12414a8d25f5fc6041823, type: 3}
+      propertyPath: sharedData
+      value: 
+      objectReference: {fileID: 11400000, guid: 04bcd950845ade646899574614740387, type: 2}
+    - target: {fileID: 160537676259433134, guid: c133cef6c7b12414a8d25f5fc6041823, type: 3}
       propertyPath: stats.attack
       value: 20
       objectReference: {fileID: 0}

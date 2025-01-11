@@ -15,13 +15,21 @@ MonoBehaviour:
   prefab: {fileID: 4357449485682963325, guid: 5071412a1ae4ee44494026283d72b4e5, type: 3}
   sprite: {fileID: 21300000, guid: ae297123f091bbf4e8f1835eb98fb293, type: 3}
   animController: {fileID: 9100000, guid: 55515b0dbdef6c14fadf26af36ee8530, type: 2}
-  stats:
-    maxHealth: 100
-    attack: 20
-    defence: 5
-    moveSpeed: 2
+  defaultStats:
+    maxHealth: 0
+    attack: 0
+    defence: 0
+    moveSpeed: 0
   defaultEquipments:
   - {fileID: -528452121079062625, guid: c937026fdd35b1343b4c230b3c3dd0de, type: 3}
   hitBoxes: []
   hurtBoxes: []
+  attackData:
+  - animationClip: {fileID: 7400000, guid: 5a0f15308604413478382e79120c2d6b, type: 2}
+    hitBox:
+      serializedVersion: 2
+      x: 0.7
+      y: 0
+      width: 2
+      height: 1.4
   cameraTarget: {x: 0, y: 0.6}

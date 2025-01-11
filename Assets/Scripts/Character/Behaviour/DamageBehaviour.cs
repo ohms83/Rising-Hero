@@ -1,4 +1,3 @@
-using System;
 using DG.Tweening;
 using Effect.Battle;
 using Gameplay.Battle;
@@ -45,7 +44,7 @@ namespace Character.Behaviour
                     vibrato);
             }
             
-            TakeDamage(other.GetComponent<Weapon>());
+            TakeDamage(other.GetComponent<Equipment>());
         }
 
         private void OnCollisionEnter2D(Collision2D other)
@@ -53,7 +52,7 @@ namespace Character.Behaviour
             Debug.Log($"Contact count = {other.contactCount}");
         }
 
-        private void TakeDamage(Weapon weapon)
+        private void TakeDamage(Equipment weapon)
         { 
             if (weapon == null || damageNumberRoot == null)
                 return;

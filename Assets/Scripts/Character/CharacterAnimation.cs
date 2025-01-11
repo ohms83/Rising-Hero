@@ -1,16 +1,16 @@
 using System;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Events;
 
 namespace Character
 {
     [RequireComponent(typeof(Animator))]
     public class CharacterAnimation : MonoBehaviour
     {
-        public delegate void AnimationEventBool(CharacterAnimation sender, bool value);
-        public AnimationEventBool HitBoxAnimationEvent;
+        public UnityAction<CharacterAnimation, AnimationEvent> hitBoxAnimationEvent;
 
-        public static readonly string AttackState = "Attack";
+        public const string AttackState = "Attack";
         private static readonly int AttackHash = Animator.StringToHash("Attack");
         private static readonly int DeathHash = Animator.StringToHash("Death");
         private static readonly int IsDeathHash = Animator.StringToHash("IsDeath");
@@ -42,14 +42,9 @@ namespace Character
             m_animator.SetTrigger(DeathHash);
         }
 
-        private void OnHitBoxEnabled()
+        private void OnHitBoxEvent(AnimationEvent eventArg)
         {
-            HitBoxAnimationEvent?.Invoke(this, true);
-        }
-        
-        private void OnHitBoxDisabled()
-        {
-            HitBoxAnimationEvent?.Invoke(this, false);
+            hitBoxAnimationEvent?.Invoke(this, eventArg);
         }
 
         public bool IsAnimState(string animName, int layerIndex = 0)

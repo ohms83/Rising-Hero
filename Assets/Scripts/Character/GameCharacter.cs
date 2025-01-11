@@ -5,9 +5,9 @@ using Character.Behaviour;
 using Character.Controller;
 using Gameplay;
 using Gameplay.Equipment;
+using ScriptableObjects.Character;
 using Skills;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Character
 {
@@ -15,12 +15,14 @@ namespace Character
     public class GameCharacter : MonoBehaviour, IEquipable
     {
         [SerializeField] private Stats stats;
+        [Tooltip("A shared and immutable data containing crucial information about the character--sprite, animation, stats, etc.")]
+        [SerializeField] private GameCharacterData sharedData;
         [SerializeField] private SpriteRenderer characterSprite;
         [SerializeField] private CharacterAnimation characterAnimation;
         public SpriteRenderer CharacterSprite => characterSprite;
         public CharacterAnimation CharacterAnimation => characterAnimation;
-
         public Stats Stats => stats;
+        public GameCharacterData SharedData => sharedData;
 
         public ControllerBase Controller
         {
@@ -32,7 +34,7 @@ namespace Character
         
         [SerializeField] private List<SkillType> skillTypes;
         [SerializeField] private bool autoCastAllSkills = false; 
-        private readonly HashSet<SkillBase> Skills = new();
+        private readonly HashSet<SkillBase> m_skills = new();
         
         #endregion
 
@@ -141,7 +143,7 @@ namespace Character
             if (skill == null)
                 return;
             
-            Skills.Add(skill);
+            m_skills.Add(skill);
 
             if (autoCastAllSkills)
                 skill.IsAutoCast = true;
