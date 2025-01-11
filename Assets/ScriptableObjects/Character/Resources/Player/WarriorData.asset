@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1982d1adbf195624b843831ea8272d00, type: 3}
+  m_Script: {fileID: 11500000, guid: 59e0ad882a60472092b0616d3711f21f, type: 3}
   m_Name: WarriorData
   m_EditorClassIdentifier: 
   prefab: {fileID: 4357449485682963325, guid: 5071412a1ae4ee44494026283d72b4e5, type: 3}
@@ -20,8 +20,8 @@ MonoBehaviour:
     attack: 20
     defence: 5
     moveSpeed: 2
-  cameraTarget: {x: 0, y: 0.6}
   defaultEquipments:
   - {fileID: -528452121079062625, guid: c937026fdd35b1343b4c230b3c3dd0de, type: 3}
   hitBoxes: []
   hurtBoxes: []
+  cameraTarget: {x: 0, y: 0.6}

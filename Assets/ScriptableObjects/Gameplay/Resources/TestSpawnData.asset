@@ -13,10 +13,9 @@ MonoBehaviour:
   m_Name: TestSpawnData
   m_EditorClassIdentifier: 
   playerCharacters:
-  - {fileID: 11400000, guid: 51a1b6abb101a504988f82346797b73b, type: 2}
+  - {fileID: 11400000, guid: 04bcd950845ade646899574614740387, type: 2}
   enemyCharacters:
-  - {fileID: 11400000, guid: 0c5599c480342184abab0914ac90baf4, type: 2}
+  - {fileID: 11400000, guid: 69cfd85ab2f11f74caebe4cc12768f37, type: 2}
   spawnInterval: 2
-  maxEnemySpawnCount: 50
+  maxEnemySpawnCount: 10
   enemySpawnRadius: 10
-  followCamera: {fileID: 2349497903389197857, guid: 7022aa7ced8bf63419175fd9d2cb213b, type: 3}

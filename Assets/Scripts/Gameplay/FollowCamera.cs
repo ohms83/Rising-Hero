@@ -1,7 +1,9 @@
 using Character;
+using ScriptableObjects.Character;
 using ScriptableObjects.Event;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Gameplay
 {
@@ -25,8 +27,9 @@ namespace Gameplay
         // TODO: Handle multiple player characters
         private void OnPlayerSpawned(SpawnedCharacterEventData spawnedCharacterEventData)
         {
-            FollowPlayer(spawnedCharacterEventData.spawnedCharacter,
-                spawnedCharacterEventData.characterData.cameraTarget);
+            var characterData = (PlayerCharacterData)spawnedCharacterEventData.characterData;
+            Assert.IsNotNull(characterData, $"{characterData} is not a PlayerCharacterData type!");
+            FollowPlayer(spawnedCharacterEventData.spawnedCharacter, characterData.cameraTarget);
         }
 
         private void FollowPlayer(GameCharacter player, Vector2 targetPosition)

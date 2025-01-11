@@ -1,4 +1,4 @@
-namespace Character.Controller.AI
+namespace ScriptableObjects.Character.Controller.AIState
 {
     public enum AIStateEnum
     {

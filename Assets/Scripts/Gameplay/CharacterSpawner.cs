@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using Character;
-using Character.Controller.AI;
+using Character.Controller;
+using ScriptableObjects.Character;
 using ScriptableObjects.Event;
 using ScriptableObjects.Gameplay;
 using UnityEngine;
@@ -54,8 +55,13 @@ namespace Gameplay
                 var x = Mathf.Cos(radian) * spawnerData.enemySpawnRadius;
                 var y = Mathf.Sin(radian) * spawnerData.enemySpawnRadius;
                 var playerPos = GetPlayerPosition();
+                
+                // TODO: Spawn various enemy types
+                var enemyData = (EnemyCharacterData)spawnerData.enemyCharacters[0];
+                Assert.IsNotNull(enemyData, $"{spawnerData.enemyCharacters[0]} is not a EnemyCharacterData type.");
+                
                 var enemy = Instantiate(
-                    spawnerData.enemyCharacters[0].prefab,
+                    enemyData.prefab,
                     playerPos + new Vector3(x, y, 0),
                     Quaternion.identity
                 );
@@ -65,6 +71,7 @@ namespace Gameplay
                 var enemyAI = (AIController)enemy.Controller;
                 Assert.IsNotNull(enemyAI);
                 enemyAI.PlayerCharacter = m_playerCharacters[0];
+                enemyAI.StateMachine.AddStates(enemyData.aiStates);
                 
                 m_spawnedEnemies.Add(enemy);
             }

@@ -16,6 +16,5 @@ namespace ScriptableObjects.Gameplay
         public float spawnInterval = 2f;
         public int maxEnemySpawnCount = 50;
         public float enemySpawnRadius = 10f;
-        public CinemachineCamera followCamera;
     }
 }

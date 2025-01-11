@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1982d1adbf195624b843831ea8272d00, type: 3}
+  m_Script: {fileID: 11500000, guid: b2de3515500e4251a0da365f546bc452, type: 3}
   m_Name: BanditData
   m_EditorClassIdentifier: 
   prefab: {fileID: 35957944120000693, guid: 79cacb237f693a9479ce4c06ad198737, type: 3}
@@ -24,3 +24,7 @@ MonoBehaviour:
   - {fileID: -528452121079062625, guid: c937026fdd35b1343b4c230b3c3dd0de, type: 3}
   hitBoxes: []
   hurtBoxes: []
+  aiStates:
+  - {fileID: 11400000, guid: 9edf82c5f86db664da74805043c24d1e, type: 2}
+  - {fileID: 11400000, guid: 1960ff7965b7d4945b7eff46b0c825e7, type: 2}
+  - {fileID: 11400000, guid: 141ec1360af8b834f99d078c1c948d54, type: 2}
