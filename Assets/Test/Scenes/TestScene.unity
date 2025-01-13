@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 634386789}
   - component: {fileID: 634386784}
   - component: {fileID: 634386790}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -548,7 +548,7 @@ GameObject:
   - component: {fileID: 881133974}
   - component: {fileID: 881133973}
   - component: {fileID: 881133976}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -736,6 +736,10 @@ PrefabInstance:
     - target: {fileID: 6776555265503637736, guid: c937026fdd35b1343b4c230b3c3dd0de, type: 3}
       propertyPath: m_Name
       value: ShortSword
+      objectReference: {fileID: 0}
+    - target: {fileID: 6776555265503637736, guid: c937026fdd35b1343b4c230b3c3dd0de, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

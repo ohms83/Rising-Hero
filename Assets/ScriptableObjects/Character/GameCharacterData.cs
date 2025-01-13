@@ -20,13 +20,10 @@ namespace ScriptableObjects.Character
     public class GameCharacterData : ScriptableObject
     {
         public GameCharacter prefab;
-        public Sprite sprite;
-        public AnimatorController animController;
         [Tooltip("Character's default stats")]
         public Stats defaultStats;
-        public List<SkillBase> defaultSkills;
+        public List<SkillType> defaultSkills;
         public List<Equipment> defaultEquipments;
-        public List<Rect> hitBoxes;
         public List<Rect> hurtBoxes;
         public List<AttackData> attackData;
     }

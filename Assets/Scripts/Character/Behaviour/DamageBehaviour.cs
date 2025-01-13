@@ -27,6 +27,7 @@ namespace Character.Behaviour
 
             m_hurtBox = GetComponent<BoxCollider2D>();
             Assert.IsNotNull(m_hurtBox);
+            m_hurtBox.excludeLayers |= 1 << ownerCharacter.gameObject.layer;
         }
 
         private void OnTriggerEnter2D(Collider2D other)

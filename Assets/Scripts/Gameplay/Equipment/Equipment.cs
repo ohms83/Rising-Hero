@@ -1,5 +1,6 @@
 using JetBrains.Annotations;
 using Skills;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace Gameplay.Equipment
@@ -50,6 +51,11 @@ namespace Gameplay.Equipment
         /// <param name="newOwner">The new owner that's going to equip this equipment</param>
         protected virtual void OnOwnerSet([NotNull] IEquipable newOwner)
         {
+            var owner = (MonoBehaviour)newOwner;
+            if (owner == null)
+                return;
+            
+            gameObject.layer = owner.gameObject.layer;
         }
 
         /// <summary>
@@ -60,7 +66,10 @@ namespace Gameplay.Equipment
         {
             var ownerObject = (MonoBehaviour)currentOwner;
             if (ownerObject != null)
+            {
                 transform.parent = null;
+                gameObject.layer = 0;
+            }
         }
 
         public Stats CombinedStats => Owner?.CombinedStats ?? Stats;

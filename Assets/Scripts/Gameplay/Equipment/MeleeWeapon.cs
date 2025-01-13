@@ -1,7 +1,6 @@
 using Character;
 using ScriptableObjects.Character;
 using UnityEngine;
-using UnityEngine.Assertions;
 using UnityEngine.Events;
 
 namespace Gameplay.Equipment
@@ -13,9 +12,18 @@ namespace Gameplay.Equipment
         private GameCharacterData m_ownerCharacterData;
         private UnityAction<CharacterAnimation, AnimationEvent> m_hitBoxAnimationEvent;
 
-        private void OnDestroy()
+        protected void Start()
         {
-            // Unbind animation event
+            EnableHitBox(false);
+        }
+
+        private void OnEnable()
+        {
+            BindHitBoxAnimationEvent((GameCharacter)Owner, true);
+        }
+
+        private void OnDisable()
+        {
             BindHitBoxAnimationEvent((GameCharacter)Owner, false);
         }
 
@@ -34,10 +42,15 @@ namespace Gameplay.Equipment
                 return;
 
             // Attach to the owner
-            transform.parent = ownerCharacter.CharacterAnimation.transform;
+            var tmpTransform = transform;
+            tmpTransform.parent = ownerCharacter.CharacterAnimation.transform;
+            tmpTransform.localPosition = Vector3.zero;
+
+            // Setup hit box
+            hitBox.excludeLayers |= 1 << ownerCharacter.gameObject.layer;
+            hitBox.enabled = false;
             
             m_ownerCharacterData = ownerCharacter.SharedData;
-            m_hitBoxAnimationEvent = ownerCharacter.CharacterAnimation.hitBoxAnimationEvent;
             BindHitBoxAnimationEvent(ownerCharacter, true);
         }
 
@@ -51,13 +64,17 @@ namespace Gameplay.Equipment
             
             transform.parent = null;
             
+            hitBox.excludeLayers ^= 1 << ownerCharacter.gameObject.layer;
+            hitBox.enabled = false;
+            
             m_ownerCharacterData = null;
-            m_hitBoxAnimationEvent = null;
             BindHitBoxAnimationEvent(ownerCharacter, false);
         }
 
         private void BindHitBoxAnimationEvent(GameCharacter owner, bool isBind)
         {
+            if (owner == null)
+                return;
             if (isBind)
                 owner.CharacterAnimation.hitBoxAnimationEvent += OnHitBoxAnimationEvent;
             else
@@ -73,7 +90,7 @@ namespace Gameplay.Equipment
                 var attackData =
                     m_ownerCharacterData.
                         attackData.Find(data => data.animationClip == eventArg.animatorClipInfo.clip);
-                hitBox.offset = new Vector2(attackData.hitBox.x, attackData.hitBox.y);
+                hitBox.transform.localPosition = new Vector2(attackData.hitBox.x, attackData.hitBox.y);
                 hitBox.size = new Vector2(attackData.hitBox.width, attackData.hitBox.height);
             }
 

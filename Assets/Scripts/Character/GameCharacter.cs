@@ -32,7 +32,6 @@ namespace Character
 
         #region Skill
         
-        [SerializeField] private List<SkillType> skillTypes;
         [SerializeField] private bool autoCastAllSkills = false; 
         private readonly HashSet<SkillBase> m_skills = new();
         
@@ -40,7 +39,6 @@ namespace Character
 
         #region Equipment
         
-        [SerializeField] private List<Equipment> defaultEquipments = new();
         private readonly Dictionary<EquipmentType, Equipment> m_equipments = new ();
         
         public Stats CombinedStats { get; private set; }
@@ -69,6 +67,13 @@ namespace Character
         public Action<GameCharacter> onCharacterDestroyed;
 
         #endregion
+        
+        public Movement Movement
+        {
+            get;
+            private set;
+        }
+        private DeathBehaviour m_deathBehaviour;
 
         protected void Awake()
         {
@@ -84,18 +89,7 @@ namespace Character
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         protected virtual void Start()
         {
-            foreach (var skill in skillTypes
-                         .Select(skillType => SkillFactory.CreateSkill(skillType, this))
-                         .Where(skill => skill != null))
-            {
-                EquipSkill(skill);
-            }
-
-            foreach (var equipment in defaultEquipments)
-            {
-                Equip(Instantiate(equipment));
-            }
-            
+            InitCharacterData();
             stats.Reset();
         }
 
@@ -119,6 +113,21 @@ namespace Character
         private void OnDestroy()
         {
             onCharacterDestroyed?.Invoke(this);
+        }
+
+        private void InitCharacterData()
+        {
+            foreach (var skill in sharedData.defaultSkills
+                         .Select(skillType => SkillFactory.CreateSkill(skillType, this))
+                         .Where(skill => skill != null))
+            {
+                EquipSkill(skill);
+            }
+
+            foreach (var equipment in sharedData.defaultEquipments)
+            {
+                Equip(Instantiate(equipment));
+            }
         }
 
         public void TakeDamage(int damage)
@@ -148,12 +157,5 @@ namespace Character
             if (autoCastAllSkills)
                 skill.IsAutoCast = true;
         }
-        
-        public Movement Movement
-        {
-            get;
-            private set;
-        }
-        private DeathBehaviour m_deathBehaviour;
     }
 }

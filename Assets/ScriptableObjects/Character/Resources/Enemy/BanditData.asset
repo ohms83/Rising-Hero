@@ -13,17 +13,23 @@ MonoBehaviour:
   m_Name: BanditData
   m_EditorClassIdentifier: 
   prefab: {fileID: 35957944120000693, guid: 79cacb237f693a9479ce4c06ad198737, type: 3}
-  sprite: {fileID: 21300000, guid: f2ed27d6c1c3ccc48959bcca269d88f0, type: 3}
-  animController: {fileID: 9100000, guid: b95265f99b6d90e438df1308a89c8bab, type: 2}
-  stats:
-    maxHealth: 30
-    attack: 6
-    defence: 5
-    moveSpeed: 2
+  defaultStats:
+    maxHealth: 0
+    attack: 0
+    defence: 0
+    moveSpeed: 0
+  defaultSkills: 
   defaultEquipments:
   - {fileID: -528452121079062625, guid: c937026fdd35b1343b4c230b3c3dd0de, type: 3}
-  hitBoxes: []
   hurtBoxes: []
+  attackData:
+  - animationClip: {fileID: 7400000, guid: 4d89c9b27cd1d4a49906c7cb00135f73, type: 2}
+    hitBox:
+      serializedVersion: 2
+      x: 0.2
+      y: 0.8
+      width: 1.4
+      height: 1.3
   aiStates:
   - {fileID: 11400000, guid: 9edf82c5f86db664da74805043c24d1e, type: 2}
   - {fileID: 11400000, guid: 1960ff7965b7d4945b7eff46b0c825e7, type: 2}
