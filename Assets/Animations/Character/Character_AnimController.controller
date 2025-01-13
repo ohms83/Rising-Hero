@@ -94,7 +94,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 41cabfe6293a957438cf14190e1d9d97, type: 2}
+  m_Motion: {fileID: 7400000, guid: 620063657e5757d4b8b91d065f5ca1dd, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -153,7 +153,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Bandit_AnimController
+  m_Name: Character_AnimController
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Attack
@@ -277,7 +277,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 4d89c9b27cd1d4a49906c7cb00135f73, type: 2}
+  m_Motion: {fileID: 7400000, guid: 5a0f15308604413478382e79120c2d6b, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -304,7 +304,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: f5b72a2f6ef64bf4a8e17c1bf1424e5d, type: 2}
+  m_Motion: {fileID: 7400000, guid: 17110c6bfa9755142a85d385f046833d, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -367,7 +367,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: a3eac12c40a02594396d13f91e387a34, type: 2}
+  m_Motion: {fileID: 7400000, guid: b02da19c8a41438469ef598305bed17f, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -444,7 +444,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: ec9e38c5f4d088a4f81c20c704993b69, type: 2}
+  m_Motion: {fileID: 7400000, guid: b977e3feba2220c419de51716e0c9692, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
