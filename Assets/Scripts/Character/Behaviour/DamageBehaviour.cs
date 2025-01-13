@@ -53,7 +53,7 @@ namespace Character.Behaviour
             damageNumber.SetDamage(damage);
             
             ownerCharacter.TakeDamage(damage);
-            m_hurtBox.enabled = !ownerCharacter.Stats.IsDeath;
+            m_hurtBox.enabled = !ownerCharacter.IsDeath;
             
             if (damageFlash != null)
                 damageFlash.FlashSprite();

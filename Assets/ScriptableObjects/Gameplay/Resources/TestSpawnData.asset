@@ -17,5 +17,5 @@ MonoBehaviour:
   enemyCharacters:
   - {fileID: 11400000, guid: 69cfd85ab2f11f74caebe4cc12768f37, type: 2}
   spawnInterval: 2
-  maxEnemySpawnCount: 10
+  maxEnemySpawnCount: 1
   enemySpawnRadius: 8

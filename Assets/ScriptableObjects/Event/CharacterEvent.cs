@@ -10,7 +10,7 @@ namespace ScriptableObjects.Event
     /// A generic character event.
     /// </summary>
     [CreateAssetMenu(fileName = "CharacterEvent", menuName = "Scriptable Objects/EventBus/Character/CharacterEvent")]
-    public class CharacterEvent : EventBus<GameCharacter>
+    public class CharacterEvent : Event<GameCharacter>
     {
     
     }

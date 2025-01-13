@@ -55,11 +55,6 @@ namespace Character.Controller
         // Update is called once per frame
         private void Update()
         {
-            if (ControlledCharacter.Stats.IsDeath)
-            {
-                StateMachine.Stop();
-                return;
-            }
             StateMachine.Update();
         }
 

@@ -7,24 +7,6 @@ namespace Gameplay
     [Serializable]
     public struct Stats
     {
-        private int m_health;
-        public int Health
-        {
-            get => m_health;
-            set
-            {
-                if (m_health > 0 && value <= 0)
-                {
-                    m_health = 0;
-                    onDeath?.Invoke();
-                }
-                else
-                {
-                    m_health = Mathf.Clamp(value, 0, MaxHealth);
-                }
-            }
-        }
-        
         [SerializeField]
         private int maxHealth;
         public int MaxHealth
@@ -32,8 +14,6 @@ namespace Gameplay
             get => maxHealth;
             set => maxHealth = value;
         }
-
-        public bool IsDeath => m_health == 0;
         
         [SerializeField]
         private int attack;
@@ -57,16 +37,6 @@ namespace Gameplay
         {
             get => moveSpeed;
             set => moveSpeed = value;
-        }
-        
-        public UnityEvent onDeath;
-
-        /// <summary>
-        /// Reset the stats to their initial values
-        /// </summary>
-        public void Reset()
-        {
-            Health = MaxHealth;
         }
         
         public static Stats operator + (Stats a, Stats b)

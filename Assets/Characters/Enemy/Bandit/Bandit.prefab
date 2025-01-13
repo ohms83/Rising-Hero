@@ -96,6 +96,18 @@ PrefabInstance:
       propertyPath: 'skillTypes.Array.data[0]'
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3982718283243551686, guid: beb1697bfe042b54f9136e68f85ee62f, type: 3}
+      propertyPath: stats.onDeath.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3982718283243551686, guid: beb1697bfe042b54f9136e68f85ee62f, type: 3}
+      propertyPath: stats.onDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1326121664723733879}
+    - target: {fileID: 3982718283243551686, guid: beb1697bfe042b54f9136e68f85ee62f, type: 3}
+      propertyPath: stats.onDeath.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6411885540895764012, guid: beb1697bfe042b54f9136e68f85ee62f, type: 3}
       propertyPath: m_FlipX
       value: 1
@@ -113,3 +125,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: beb1697bfe042b54f9136e68f85ee62f, type: 3}
+--- !u!1 &1326121664723733879 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2692481887519241732, guid: beb1697bfe042b54f9136e68f85ee62f, type: 3}
+  m_PrefabInstance: {fileID: 3979716018524076915}
+  m_PrefabAsset: {fileID: 0}

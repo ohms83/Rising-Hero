@@ -4,7 +4,35 @@ using UnityEngine.Events;
 
 namespace Pattern
 {
-    public abstract class EventBus<T> : ScriptableObject
+    [Serializable]
+    public class ValueEvent<T>
+    {
+        [SerializeField] private T _value;
+
+        public T Value
+        {
+            get => _value;
+            set
+            {
+                if (!_value.Equals(value))
+                {
+                    onValueChanged?.Invoke(_value, value);
+                }
+                _value = value;
+            }
+        }
+        
+        public UnityEvent<T, T> onValueChanged;
+
+        public ValueEvent()
+        {
+        }
+        public ValueEvent(T value)
+        {
+            Value = value;
+        }
+    }
+    public abstract class Event<T> : ScriptableObject
     {
         [Tooltip("Register to this call back to listening events broadcasting from this event bus")]
         public UnityAction<T> onEventRaised;
@@ -16,7 +44,7 @@ namespace Pattern
     }
 
     public abstract class EventBusListener<TEventChannel, TEventParam> : MonoBehaviour
-        where TEventChannel : EventBus<TEventParam>
+        where TEventChannel : Event<TEventParam>
     {
         [SerializeField] protected TEventChannel eventSource;
         [SerializeField] protected UnityEvent<TEventParam> eventHandlers;

@@ -11,6 +11,12 @@ namespace Character.Behaviour
         [SerializeField] private float moveSpeed = 2;
         [SerializeField] private CharacterAnimation characterAnimation;
 
+        public float MoveSpeed
+        {
+            get => moveSpeed;
+            set => moveSpeed = value;
+        }
+
         public Vector2 MoveVector
         {
             get => m_moveVector;
@@ -24,7 +30,7 @@ namespace Character.Behaviour
                     characterAnimation.SetRunningFlag(m_isMoving);
                 }
 
-                m_rigidbody2D.linearVelocity = value * moveSpeed;
+                m_rigidbody2D.linearVelocity = value * MoveSpeed;
             }
         }
         private Vector2 m_moveVector;

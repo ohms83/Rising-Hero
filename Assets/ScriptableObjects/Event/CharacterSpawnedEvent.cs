@@ -14,7 +14,7 @@ namespace ScriptableObjects.Event
     }
 
     [CreateAssetMenu(fileName = "CharacterSpawnedEvent", menuName = "Scriptable Objects/EventBus/Character/CharacterSpawnedEvent")]
-    public class CharacterSpawnedEvent : EventBus<SpawnedCharacterEventData>
+    public class CharacterSpawnedEvent : Event<SpawnedCharacterEventData>
     {
         
     }

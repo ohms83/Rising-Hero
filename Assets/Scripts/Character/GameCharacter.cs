@@ -5,6 +5,7 @@ using Character.Behaviour;
 using Character.Controller;
 using Gameplay;
 using Gameplay.Equipment;
+using Pattern;
 using ScriptableObjects.Character;
 using ScriptableObjects.Event;
 using Skills;
@@ -16,6 +17,9 @@ namespace Character
     [RequireComponent(typeof(Movement))]
     public class GameCharacter : MonoBehaviour, IEquipable
     {
+        public ValueEvent<int> health;
+        public bool IsDeath => health.Value <= 0;
+        
         [SerializeField] private Stats stats;
         [Tooltip("A shared and immutable data containing crucial information about the character--sprite, animation, stats, etc.")]
         [SerializeField] private GameCharacterData sharedData;
@@ -85,6 +89,7 @@ namespace Character
         protected void Awake()
         {
             CombinedStats = Stats;
+            
             Controller = GetComponent<ControllerBase>();
             Movement = GetComponent<Movement>();
             
@@ -100,8 +105,8 @@ namespace Character
         protected virtual void Start()
         {
             InitCharacterData();
-            stats.Reset();
-            stats.onDeath.AddListener(OnDeath);
+            health.onValueChanged.AddListener(OnHealthUpdated);
+            health.Value = CombinedStats.MaxHealth;
         }
 
         // Update is called once per frame
@@ -112,12 +117,6 @@ namespace Character
             {
                 var yaw = moveX < 0 ? 180f : 0f;
                 characterSprite.transform.eulerAngles = new Vector3(0, yaw, 0);
-            }
-
-            if (stats.IsDeath && !m_deathBehaviour.IsDeathSequenceStarted)
-            {
-                m_deathBehaviour.BeginDeathSequence();
-                Movement.MoveVector = Vector2.zero;
             }
         }
 
@@ -139,14 +138,25 @@ namespace Character
             {
                 Equip(Instantiate(equipment));
             }
+
+            Movement.MoveSpeed = stats.MoveSpeed;
         }
 
         public void TakeDamage(int damage)
         {
-            if (stats.IsDeath)
+            if (IsDeath)
                 return;
-            
-            stats.Health -= damage;
+
+            var newValue = health.Value - damage;
+            health.Value = newValue < 0 ? 0 : newValue;
+        }
+
+        private void OnHealthUpdated(int oldValue, int newValue)
+        {
+            if (newValue <= 0)
+            {
+                OnDeath();
+            }
         }
 
         /// <summary>
@@ -176,6 +186,10 @@ namespace Character
                 keyValue.Value.enabled = false;
             }
 
+            enabled = false;
+            Movement.MoveVector = Vector2.zero;
+
+            m_deathBehaviour.BeginDeathSequence();
             onCharacterDeath?.Invoke(this);
             
             if (characterDeathEvent != null)
