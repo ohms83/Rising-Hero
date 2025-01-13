@@ -32,19 +32,6 @@ namespace Character.Behaviour
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (damageFlash != null)
-                damageFlash.FlashSprite();
-
-            if (m_characterAnimation != null)
-            {
-                DOTween.Shake(
-                    () => m_characterAnimation.transform.localPosition,
-                    value => m_characterAnimation.transform.localPosition = value,
-                    shakeDuration,
-                    shakeStrength,
-                    vibrato);
-            }
-            
             TakeDamage(other.GetComponent<Equipment>());
         }
 
@@ -67,6 +54,19 @@ namespace Character.Behaviour
             
             ownerCharacter.TakeDamage(damage);
             m_hurtBox.enabled = !ownerCharacter.Stats.IsDeath;
+            
+            if (damageFlash != null)
+                damageFlash.FlashSprite();
+
+            if (m_characterAnimation != null)
+            {
+                DOTween.Shake(
+                    () => m_characterAnimation.transform.localPosition,
+                    value => m_characterAnimation.transform.localPosition = value,
+                    shakeDuration,
+                    shakeStrength,
+                    vibrato);
+            }
         }
     }
 }

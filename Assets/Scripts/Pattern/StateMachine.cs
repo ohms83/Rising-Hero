@@ -1,12 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.Rendering;
-using UnityEngine.Serialization;
 
 namespace Pattern
 {
@@ -136,9 +132,14 @@ namespace Pattern
         /// </summary>
         public void Stop()
         {
+            // ReSharper disable once Unity.PerformanceCriticalCodeNullComparison
+            if (CurrentState != null)
+                CurrentState.OnExit(Owner);
+            
+            m_needChangeState = false;
             NextState = null;
             CurrentState = null;
-            m_needChangeState = false;
+            UpdateFunc = null;
         }
     }
 }

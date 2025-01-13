@@ -6,8 +6,10 @@ using Character.Controller;
 using Gameplay;
 using Gameplay.Equipment;
 using ScriptableObjects.Character;
+using ScriptableObjects.Event;
 using Skills;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Character
 {
@@ -62,9 +64,14 @@ namespace Character
         
         #endregion
 
-        #region Event
+        #region Events
         
-        public Action<GameCharacter> onCharacterDestroyed;
+        [Header("Events")]
+        public UnityEvent<GameCharacter> onCharacterDestroyed;
+        public UnityEvent<GameCharacter> onCharacterDeath;
+        
+        [SerializeField] private CharacterEvent characterSpawnedEvent;
+        [SerializeField] private CharacterEvent characterDeathEvent;
 
         #endregion
         
@@ -84,6 +91,9 @@ namespace Character
             m_deathBehaviour = GetComponent<DeathBehaviour>();
             if (m_deathBehaviour == null)
                 Debug.LogAssertion($"{gameObject} has no DeathBehaviour attache");
+            
+            if (characterSpawnedEvent != null)
+                characterSpawnedEvent.onEventRaised?.Invoke(this);
         }
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -91,6 +101,7 @@ namespace Character
         {
             InitCharacterData();
             stats.Reset();
+            stats.onDeath.AddListener(OnDeath);
         }
 
         // Update is called once per frame
@@ -156,6 +167,19 @@ namespace Character
 
             if (autoCastAllSkills)
                 skill.IsAutoCast = true;
+        }
+
+        private void OnDeath()
+        {
+            foreach (var keyValue in m_equipments)
+            {
+                keyValue.Value.enabled = false;
+            }
+
+            onCharacterDeath?.Invoke(this);
+            
+            if (characterDeathEvent != null)
+                characterDeathEvent.onEventRaised?.Invoke(this);
         }
     }
 }

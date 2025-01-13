@@ -1,5 +1,6 @@
 // #define DEBUG_PLAYER_CONTROLLER
 
+using System;
 using Character.Behaviour;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -15,10 +16,11 @@ namespace Character.Controller
         [SerializeField] private float impulseTolerance = 0.1f;
         
         private Movement m_movement;
+        private InputAction m_moveAction;
 
-        protected override void Start()
+        protected override void Awake()
         {
-            base.Start();
+            base.Awake();
             
             m_movement = GetComponent<Movement>();
 
@@ -26,10 +28,25 @@ namespace Character.Controller
             Assert.IsNotNull(playerInput);
             
             // Initializes input actions
-            var moveAction = playerInput.actions["Move"];
-            Assert.IsNotNull(moveAction);
-            moveAction.performed += OnPerformMove;
-            moveAction.canceled += OnCanceledMove;
+            m_moveAction = playerInput.actions["Move"];
+            Assert.IsNotNull(m_moveAction);
+        }
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            EnableInput();
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            DisableInput();
+        }
+        protected override void OnCharacterDeath(GameCharacter controlledCharacter)
+        {
+            base.OnCharacterDeath(controlledCharacter);
+            DisableInput();
         }
 
         private void OnPerformMove(InputAction.CallbackContext context)
@@ -50,6 +67,19 @@ namespace Character.Controller
         #if DEBUG_PLAYER_CONTROLLER
             Debug.Log("Canceled");
         #endif
+        }
+
+        private void EnableInput()
+        {
+            m_moveAction.performed += OnPerformMove;
+            m_moveAction.canceled += OnCanceledMove;
+        }
+        
+        private void DisableInput()
+        {
+            m_moveAction.performed -= OnPerformMove;
+            m_moveAction.canceled -= OnCanceledMove;
+            m_movement.MoveVector = Vector2.zero;
         }
     }
 }

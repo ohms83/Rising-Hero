@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Pattern;
 using ScriptableObjects.Character.Controller.AIState;
+using ScriptableObjects.Event;
 using UnityEngine;
 
 namespace Character.Controller
@@ -23,18 +24,32 @@ namespace Character.Controller
         
         #endregion
         
+        [SerializeField] private CharacterEvent playerDeathEvent;
+        
         // Start is called once before the first execution of Update after the MonoBehaviour is created
-        protected void Awake()
+        protected override void Awake()
         {
-            StateMachine = new StateMachine<AIStateEnum>(this); 
+            base.Awake();
+            StateMachine = new StateMachine<AIStateEnum>(this);
+            StateMachine.AddStates(states);
         }
 
-        protected override void Start()
+        protected override void OnEnable()
         {
-            base.Start();
-            
-            StateMachine.AddStates(states);
+            base.OnEnable();
             StateMachine.ChangeState(defaultState);
+
+            if (playerDeathEvent != null)
+                playerDeathEvent.onEventRaised += OnPlayerDeath;
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            StateMachine.Stop();
+
+            if (playerDeathEvent != null)
+                playerDeathEvent.onEventRaised -= OnPlayerDeath;
         }
 
         // Update is called once per frame
@@ -46,6 +61,12 @@ namespace Character.Controller
                 return;
             }
             StateMachine.Update();
+        }
+
+        private void OnPlayerDeath(GameCharacter player)
+        {
+            PlayerCharacter = null;
+            StateMachine.Stop();
         }
     }
 }

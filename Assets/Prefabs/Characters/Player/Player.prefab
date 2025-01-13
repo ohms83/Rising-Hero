@@ -12,6 +12,38 @@ PrefabInstance:
       propertyPath: autoCastAllSkills
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -5308753907243188676, guid: 65789b6c78c4f4a4782fea74ae5271fb, type: 3}
+      propertyPath: characterDeathEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 595a5d5803ab66c4e92156b3a5211de4, type: 2}
+    - target: {fileID: -5308753907243188676, guid: 65789b6c78c4f4a4782fea74ae5271fb, type: 3}
+      propertyPath: characterSpawnedEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 9ebadda9bd91b924da54eb3d24034e3a, type: 2}
+    - target: {fileID: -5308753907243188676, guid: 65789b6c78c4f4a4782fea74ae5271fb, type: 3}
+      propertyPath: stats.onDeath.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5308753907243188676, guid: 65789b6c78c4f4a4782fea74ae5271fb, type: 3}
+      propertyPath: onCharacterDeath.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5308753907243188676, guid: 65789b6c78c4f4a4782fea74ae5271fb, type: 3}
+      propertyPath: stats.onDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1162688492072605548}
+    - target: {fileID: -5308753907243188676, guid: 65789b6c78c4f4a4782fea74ae5271fb, type: 3}
+      propertyPath: onCharacterDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1162688492072605548}
+    - target: {fileID: -5308753907243188676, guid: 65789b6c78c4f4a4782fea74ae5271fb, type: 3}
+      propertyPath: stats.onDeath.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -5308753907243188676, guid: 65789b6c78c4f4a4782fea74ae5271fb, type: 3}
+      propertyPath: onCharacterDeath.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1671166422978452721, guid: 65789b6c78c4f4a4782fea74ae5271fb, type: 3}
       propertyPath: m_Layer
       value: 6

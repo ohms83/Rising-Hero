@@ -9,6 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0f598e617aaaad4680ebeb858e789da, type: 3}
-  m_Name: PlayerSpawnedEvent
+  m_Script: {fileID: 11500000, guid: 4c88c042575e98a4d90ff55e8d37b5d0, type: 3}
+  m_Name: PlayerDeathEvent
   m_EditorClassIdentifier: 

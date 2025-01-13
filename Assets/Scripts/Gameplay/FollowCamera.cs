@@ -10,7 +10,7 @@ namespace Gameplay
     [RequireComponent(typeof(CinemachineCamera))]
     public class FollowCamera : MonoBehaviour
     {
-        [SerializeField] private CharacterSpawnedEvent playerSpawnedEvent;
+        [SerializeField] private CharacterEvent playerSpawnedEvent;
         
         private CinemachineCamera m_camera;
         private GameObject m_followTarget;
@@ -25,14 +25,14 @@ namespace Gameplay
         }
 
         // TODO: Handle multiple player characters
-        private void OnPlayerSpawned(SpawnedCharacterEventData spawnedCharacterEventData)
+        private void OnPlayerSpawned(GameCharacter spawnedCharacter)
         {
-            var characterData = (PlayerCharacterData)spawnedCharacterEventData.characterData;
+            var characterData = (PlayerCharacterData)spawnedCharacter.SharedData;
             Assert.IsNotNull(characterData, $"{characterData} is not a PlayerCharacterData type!");
-            FollowPlayer(spawnedCharacterEventData.spawnedCharacter, characterData.cameraTarget);
+            FollowPlayer(spawnedCharacter, characterData.cameraTarget);
         }
 
-        private void FollowPlayer(GameCharacter player, Vector2 targetPosition)
+        private void FollowPlayer(Component player, Vector2 targetPosition)
         {
             m_followTarget.transform.parent = player.transform;
             m_followTarget.transform.localPosition = targetPosition;

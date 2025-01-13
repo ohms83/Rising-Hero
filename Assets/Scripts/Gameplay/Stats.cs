@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Gameplay
 {
@@ -10,7 +11,18 @@ namespace Gameplay
         public int Health
         {
             get => m_health;
-            set => m_health = Mathf.Clamp(value, 0, MaxHealth);
+            set
+            {
+                if (m_health > 0 && value <= 0)
+                {
+                    m_health = 0;
+                    onDeath?.Invoke();
+                }
+                else
+                {
+                    m_health = Mathf.Clamp(value, 0, MaxHealth);
+                }
+            }
         }
         
         [SerializeField]
@@ -46,6 +58,8 @@ namespace Gameplay
             get => moveSpeed;
             set => moveSpeed = value;
         }
+        
+        public UnityEvent onDeath;
 
         /// <summary>
         /// Reset the stats to their initial values
@@ -57,7 +71,7 @@ namespace Gameplay
         
         public static Stats operator + (Stats a, Stats b)
         {
-            return new Stats()
+            return new Stats
             {
                 attack = a.attack + b.attack,
                 defence = a.defence + b.defence,

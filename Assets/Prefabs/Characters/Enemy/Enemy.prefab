@@ -106,8 +106,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCharacter: {fileID: 3982718283243551686}
-  states: []
+  states:
+  - {fileID: 11400000, guid: 9edf82c5f86db664da74805043c24d1e, type: 2}
+  - {fileID: 11400000, guid: 141ec1360af8b834f99d078c1c948d54, type: 2}
+  - {fileID: 11400000, guid: 1960ff7965b7d4945b7eff46b0c825e7, type: 2}
   defaultState: 0
+  playerDeathEvent: {fileID: 11400000, guid: 595a5d5803ab66c4e92156b3a5211de4, type: 2}
 --- !u!114 &3982718283243551686 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -5308753907243188676, guid: 65789b6c78c4f4a4782fea74ae5271fb, type: 3}

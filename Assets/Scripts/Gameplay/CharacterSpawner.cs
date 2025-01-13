@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Character;
 using Character.Controller;
 using ScriptableObjects.Character;
@@ -7,34 +9,55 @@ using ScriptableObjects.Event;
 using ScriptableObjects.Gameplay;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Random = UnityEngine.Random;
 
 namespace Gameplay
 {
     public class CharacterSpawner : MonoBehaviour
     {
         [SerializeField] private SpawnerData spawnerData;
-        [SerializeField] private CharacterSpawnedEvent playerSpawnedEvent;
+        [SerializeField] private CharacterEvent playerSpawnedEvent;
+        [SerializeField] private CharacterEvent playerDeathEvent;
 
         private readonly List<GameCharacter> m_playerCharacters = new ();
         private readonly List<GameCharacter> m_spawnedEnemies = new ();
+        private IEnumerator m_spawnCoroutine;
+
+        private void Awake()
+        {
+            m_spawnCoroutine = SpawnLoop();
+        }
+
         private void Start()
         {
             Assert.IsNotNull(spawnerData);
             
             // Spawning players
-            foreach (var characterData in spawnerData.playerCharacters)
+            foreach (var playerCharacter in
+                     spawnerData.playerCharacters.Select(characterData => Instantiate(characterData.prefab)))
             {
-                var playerCharacter = Instantiate(characterData.prefab);
                 m_playerCharacters.Add(playerCharacter);
                 
-                playerSpawnedEvent.onEventRaised?.Invoke(new SpawnedCharacterEventData
-                {
-                    characterData = characterData,
-                    spawnedCharacter = playerCharacter
-                });
+                playerSpawnedEvent.onEventRaised?.Invoke(playerCharacter);
             }
-            
-            StartCoroutine(SpawnLoop());
+
+            if (playerDeathEvent != null)
+                playerDeathEvent.onEventRaised += OnPlayerDeath;
+        }
+
+        private void OnEnable()
+        {
+            StartCoroutine(m_spawnCoroutine);
+        }
+
+        private void OnDisable()
+        {
+            StopCoroutine(m_spawnCoroutine);
+        }
+
+        private void OnPlayerDeath(GameCharacter player)
+        {
+            enabled = false;
         }
 
         private IEnumerator SpawnLoop()
@@ -65,13 +88,12 @@ namespace Gameplay
                     playerPos + new Vector3(x, y, 0),
                     Quaternion.identity
                 );
-                enemy.onCharacterDestroyed += character => m_spawnedEnemies.Remove(character);
+                enemy.onCharacterDestroyed.AddListener(character => m_spawnedEnemies.Remove(character));
                 
                 // Init AI
                 var enemyAI = (AIController)enemy.Controller;
                 Assert.IsNotNull(enemyAI);
                 enemyAI.PlayerCharacter = m_playerCharacters[0];
-                enemyAI.StateMachine.AddStates(enemyData.aiStates);
                 
                 m_spawnedEnemies.Add(enemy);
             }

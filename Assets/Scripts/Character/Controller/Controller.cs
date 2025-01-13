@@ -14,10 +14,25 @@ namespace Character.Controller
             private set;
         }
 
-        protected virtual void Start()
+        protected virtual void Awake()
         {
             ControlledCharacter = GetComponent<GameCharacter>();
             Assert.IsNotNull(ControlledCharacter);
+        }
+
+        protected virtual void OnEnable()
+        {
+            ControlledCharacter.onCharacterDeath.AddListener(OnCharacterDeath);
+        }
+
+        protected virtual void OnDisable()
+        {
+            ControlledCharacter.onCharacterDeath.RemoveListener(OnCharacterDeath);
+        }
+
+        protected virtual void OnCharacterDeath(GameCharacter controlledCharacter)
+        {
+            enabled = false;
         }
     }
 }
