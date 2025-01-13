@@ -17,7 +17,6 @@ namespace Gameplay
     {
         [SerializeField] private SpawnerData spawnerData;
         [SerializeField] private CharacterEvent playerSpawnedEvent;
-        [SerializeField] private CharacterEvent playerDeathEvent;
 
         private readonly List<GameCharacter> m_playerCharacters = new ();
         private readonly List<GameCharacter> m_spawnedEnemies = new ();
@@ -37,12 +36,10 @@ namespace Gameplay
                      spawnerData.playerCharacters.Select(characterData => Instantiate(characterData.prefab)))
             {
                 m_playerCharacters.Add(playerCharacter);
+                playerCharacter.onCharacterDeath.AddListener(OnPlayerDeath);
                 
                 playerSpawnedEvent.onEventRaised?.Invoke(playerCharacter);
             }
-
-            if (playerDeathEvent != null)
-                playerDeathEvent.onEventRaised += OnPlayerDeath;
         }
 
         private void OnEnable()
