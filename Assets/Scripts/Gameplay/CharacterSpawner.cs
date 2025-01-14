@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,8 +14,8 @@ namespace Gameplay
 {
     public class CharacterSpawner : MonoBehaviour
     {
-        [SerializeField] private SpawnerData spawnerData;
-        [SerializeField] private CharacterEvent playerSpawnedEvent;
+        [SerializeField] private SpawnerData m_spawnerData;
+        [SerializeField] private CharacterEvent m_playerSpawnedEvent;
 
         private readonly List<GameCharacter> m_playerCharacters = new ();
         private readonly List<GameCharacter> m_spawnedEnemies = new ();
@@ -25,7 +24,7 @@ namespace Gameplay
 
         private void Awake()
         {
-            foreach (var spawnData in spawnerData.enemyData)
+            foreach (var spawnData in m_spawnerData.enemyData)
             {
                 m_spawnCoroutines.Add(SpawnLoop(spawnData));
             }
@@ -33,14 +32,12 @@ namespace Gameplay
 
         private void Start()
         {
-            Assert.IsNotNull(spawnerData);
+            Assert.IsNotNull(m_spawnerData);
             SpawnPlayers();
         }
 
         private void OnEnable()
         {
-            // StartCoroutine(m_spawnCoroutine);
-            
             foreach (var coroutine in m_spawnCoroutines)
             {
                 StartCoroutine(coroutine);
@@ -49,8 +46,6 @@ namespace Gameplay
 
         private void OnDisable()
         {
-            // StopCoroutine(m_spawnCoroutine);
-            
             foreach (var coroutine in m_spawnCoroutines)
             {
                 StopCoroutine(coroutine);
@@ -65,16 +60,16 @@ namespace Gameplay
         private void SpawnPlayers()
         {
             foreach (var playerCharacter in
-                     spawnerData.playerCharacters.Select(characterData => Instantiate(characterData.prefab)))
+                     m_spawnerData.playerCharacters.Select(characterData => Instantiate(characterData.prefab)))
             {
-                playerCharacter.SetAutoCast(spawnerData.playerAutoCastSkills);
+                playerCharacter.SetAutoCast(m_spawnerData.playerAutoCastSkills);
                 playerCharacter.onCharacterDeath.AddListener(OnPlayerDeath);
-                playerSpawnedEvent.onEventRaised?.Invoke(playerCharacter);
+                m_playerSpawnedEvent.onEventRaised?.Invoke(playerCharacter);
                 m_playerCharacters.Add(playerCharacter);
             }
 
             if (m_playerCharacters.Count > 0)
-                AssignController(spawnerData.playerControllerPrefab, m_playerCharacters[0]);
+                AssignController(m_spawnerData.playerControllerPrefab, m_playerCharacters[0]);
         }
 
         private static ControllerBase AssignController(ControllerBase prefab, GameCharacter character)
