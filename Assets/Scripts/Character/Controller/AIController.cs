@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Pattern;
 using ScriptableObjects.Character.Controller.AIState;
 using ScriptableObjects.Event;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Character.Controller
@@ -12,7 +13,19 @@ namespace Character.Controller
         public GameCharacter PlayerCharacter
         {
             get => playerCharacter;
-            set => playerCharacter = value;
+            set
+            {
+                if (playerCharacter != null)
+                    playerCharacter.onCharacterDeath.RemoveListener(OnPlayerDeath);
+
+                if (value != null)
+                {
+                    value.onCharacterDeath.AddListener(OnPlayerDeath);
+                    StateMachine?.ChangeState(defaultState);
+                }
+                
+                playerCharacter = value;
+            }
         }
 
         #region State Machine
@@ -24,32 +37,37 @@ namespace Character.Controller
         
         #endregion
         
-        [SerializeField] private CharacterEvent playerDeathEvent;
-        
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         protected override void Awake()
         {
             base.Awake();
             StateMachine = new StateMachine<AIStateEnum>(this);
             StateMachine.AddStates(states);
+            StateMachine.ChangeState(defaultState);
         }
 
         protected override void OnEnable()
         {
             base.OnEnable();
-            StateMachine.ChangeState(defaultState);
 
-            if (playerDeathEvent != null)
-                playerDeathEvent.onEventRaised += OnPlayerDeath;
+            if (playerCharacter == null || playerCharacter.IsDestroyed())
+            {
+                OnPlayerDeath(playerCharacter);
+            }
+            else
+            {
+                playerCharacter.onCharacterDeath.AddListener(OnPlayerDeath);
+                StateMachine?.ChangeState(defaultState);
+            }
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            StateMachine.Stop();
+            StateMachine?.Stop();
 
-            if (playerDeathEvent != null)
-                playerDeathEvent.onEventRaised -= OnPlayerDeath;
+            if (playerCharacter != null)
+                playerCharacter.onCharacterDeath.RemoveListener(OnPlayerDeath);
         }
 
         // Update is called once per frame

@@ -30,16 +30,7 @@ namespace Gameplay
         private void Start()
         {
             Assert.IsNotNull(spawnerData);
-            
-            // Spawning players
-            foreach (var playerCharacter in
-                     spawnerData.playerCharacters.Select(characterData => Instantiate(characterData.prefab)))
-            {
-                m_playerCharacters.Add(playerCharacter);
-                playerCharacter.onCharacterDeath.AddListener(OnPlayerDeath);
-                
-                playerSpawnedEvent.onEventRaised?.Invoke(playerCharacter);
-            }
+            SpawnPlayers();
         }
 
         private void OnEnable()
@@ -55,6 +46,30 @@ namespace Gameplay
         private void OnPlayerDeath(GameCharacter player)
         {
             enabled = false;
+        }
+
+        private void SpawnPlayers()
+        {
+            foreach (var playerCharacter in
+                     spawnerData.playerCharacters.Select(characterData => Instantiate(characterData.prefab)))
+            {
+                playerCharacter.SetAutoCast(spawnerData.playerAutoCastSkills);
+                playerCharacter.onCharacterDeath.AddListener(OnPlayerDeath);
+                playerSpawnedEvent.onEventRaised?.Invoke(playerCharacter);
+                m_playerCharacters.Add(playerCharacter);
+            }
+
+            if (m_playerCharacters.Count > 0)
+                AssignController(spawnerData.playerControllerPrefab, m_playerCharacters[0]);
+        }
+
+        private static ControllerBase AssignController(ControllerBase prefab, GameCharacter character)
+        {
+            if (prefab == null)
+                return null;
+            var controller = Instantiate(prefab, character.transform, true);
+            controller.ControlledCharacter = character;
+            return controller;
         }
 
         private IEnumerator SpawnLoop()
@@ -88,10 +103,13 @@ namespace Gameplay
                 enemy.onCharacterDestroyed.AddListener(character => m_spawnedEnemies.Remove(character));
                 
                 // Init AI
-                var enemyAI = (AIController)enemy.Controller;
-                Assert.IsNotNull(enemyAI);
-                enemyAI.PlayerCharacter = m_playerCharacters[0];
-                
+                var aiController = (AIController)AssignController(enemyData.aiControllerPrefab, enemy);
+                if (aiController != null)
+                {
+                    // TODO: Handle multiple players
+                    aiController.PlayerCharacter = m_playerCharacters[0];
+                }
+
                 m_spawnedEnemies.Add(enemy);
             }
         }

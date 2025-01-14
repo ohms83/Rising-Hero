@@ -8,29 +8,11 @@ using UnityEngine.InputSystem;
 
 namespace Character.Controller
 {
-    [RequireComponent(typeof(Movement))]
     [RequireComponent(typeof(PlayerInput))]
     public class PlayerController : ControllerBase
     {
         // The input vector must be at least bigger than the specified value to be considered valid. 
-        [SerializeField] private float impulseTolerance = 0.1f;
-        
-        private Movement m_movement;
-        private InputAction m_moveAction;
-
-        protected override void Awake()
-        {
-            base.Awake();
-            
-            m_movement = GetComponent<Movement>();
-
-            var playerInput = GetComponent<PlayerInput>();
-            Assert.IsNotNull(playerInput);
-            
-            // Initializes input actions
-            m_moveAction = playerInput.actions["Move"];
-            Assert.IsNotNull(m_moveAction);
-        }
+        [SerializeField] private float impulseTolerance = 0.3f;
 
         protected override void OnEnable()
         {
@@ -55,7 +37,7 @@ namespace Character.Controller
             if (moveVec.magnitude <= impulseTolerance)
                 return;
             
-            m_movement.MoveVector = moveVec;
+            ControlledCharacter.Movement.MoveVector = moveVec;
         #if DEBUG_PLAYER_CONTROLLER
             Debug.Log($"Performed Move={m_movement.MoveVector} Size={m_movement.MoveVector.magnitude}");                
         #endif
@@ -63,7 +45,7 @@ namespace Character.Controller
 
         private void OnCanceledMove(InputAction.CallbackContext context)
         {
-            m_movement.MoveVector = Vector2.zero;
+            ControlledCharacter.Movement.MoveVector = Vector2.zero;
         #if DEBUG_PLAYER_CONTROLLER
             Debug.Log("Canceled");
         #endif
@@ -71,15 +53,23 @@ namespace Character.Controller
 
         private void EnableInput()
         {
-            m_moveAction.performed += OnPerformMove;
-            m_moveAction.canceled += OnCanceledMove;
+            var playerInput = GetComponent<PlayerInput>();
+            var inputAction = playerInput.actions["Move"];
+            inputAction.performed += OnPerformMove;
+            inputAction.canceled += OnCanceledMove;
+            playerInput.enabled = true;
         }
         
         private void DisableInput()
         {
-            m_moveAction.performed -= OnPerformMove;
-            m_moveAction.canceled -= OnCanceledMove;
-            m_movement.MoveVector = Vector2.zero;
+            var playerInput = GetComponent<PlayerInput>();
+            var inputAction = playerInput.actions["Move"];
+            inputAction.performed -= OnPerformMove;
+            inputAction.canceled -= OnCanceledMove;
+            playerInput.enabled = true;
+            
+            if (ControlledCharacter != null)
+                ControlledCharacter.Movement.MoveVector = Vector2.zero;
         }
     }
 }

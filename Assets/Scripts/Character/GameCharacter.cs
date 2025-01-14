@@ -11,6 +11,7 @@ using ScriptableObjects.Event;
 using Skills;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace Character
 {
@@ -25,7 +26,7 @@ namespace Character
         [SerializeField] private GameCharacterData sharedData;
         [SerializeField] private SpriteRenderer characterSprite;
         [SerializeField] private CharacterAnimation characterAnimation;
-        public SpriteRenderer CharacterSprite => characterSprite;
+        // public SpriteRenderer CharacterSprite => characterSprite;
         public CharacterAnimation CharacterAnimation => characterAnimation;
         public Stats Stats => stats;
         public GameCharacterData SharedData => sharedData;
@@ -38,8 +39,20 @@ namespace Character
 
         #region Skill
         
-        [SerializeField] private bool autoCastAllSkills = false; 
+        [Tooltip("If set, all the equipped skills will be auto-cast.")]
+        [SerializeField] private bool m_autoCastAllSkills;
+
+        public void SetAutoCast(bool flag)
+        {
+            foreach (var skill in Skills)
+            {
+                skill.IsAutoCast = flag;
+            }
+            m_autoCastAllSkills = flag;
+        }
+        
         private readonly HashSet<SkillBase> m_skills = new();
+        public HashSet<SkillBase> Skills => m_skills;
         
         #endregion
 
@@ -63,7 +76,6 @@ namespace Character
 
             newEquipment.Owner = this;
             newEquipment.gameObject.layer = gameObject.layer;
-
         }
         
         #endregion
@@ -74,8 +86,8 @@ namespace Character
         public UnityEvent<GameCharacter> onCharacterDestroyed;
         public UnityEvent<GameCharacter> onCharacterDeath;
         
-        [SerializeField] private CharacterEvent characterSpawnedEvent;
-        [SerializeField] private CharacterEvent characterDeathEvent;
+        [SerializeField] private CharacterEvent m_characterSpawnedEvent;
+        [SerializeField] private CharacterEvent m_characterDeathEvent;
 
         #endregion
         
@@ -97,8 +109,8 @@ namespace Character
             if (m_deathBehaviour == null)
                 Debug.LogAssertion($"{gameObject} has no DeathBehaviour attache");
             
-            if (characterSpawnedEvent != null)
-                characterSpawnedEvent.onEventRaised?.Invoke(this);
+            if (m_characterSpawnedEvent != null)
+                m_characterSpawnedEvent.onEventRaised?.Invoke(this);
         }
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -127,6 +139,9 @@ namespace Character
 
         private void InitCharacterData()
         {
+            if (sharedData == null)
+                return;
+            
             foreach (var skill in sharedData.defaultSkills
                          .Select(skillType => SkillFactory.CreateSkill(skillType, this))
                          .Where(skill => skill != null))
@@ -134,9 +149,11 @@ namespace Character
                 EquipSkill(skill);
             }
 
-            foreach (var equipment in sharedData.defaultEquipments)
+            foreach (var equipment in sharedData.defaultEquipments
+                         .Select(Instantiate)
+                         .Where(equipment => equipment != null))
             {
-                Equip(Instantiate(equipment));
+                Equip(equipment);
             }
 
             Movement.MoveSpeed = stats.MoveSpeed;
@@ -175,7 +192,7 @@ namespace Character
             
             m_skills.Add(skill);
 
-            if (autoCastAllSkills)
+            if (m_autoCastAllSkills)
                 skill.IsAutoCast = true;
         }
 
@@ -192,8 +209,13 @@ namespace Character
             m_deathBehaviour.BeginDeathSequence();
             onCharacterDeath?.Invoke(this);
             
-            if (characterDeathEvent != null)
-                characterDeathEvent.onEventRaised?.Invoke(this);
+            if (m_characterDeathEvent != null)
+                m_characterDeathEvent.onEventRaised?.Invoke(this);
+        }
+
+        private void OnGUI()
+        {
+            SetAutoCast(m_autoCastAllSkills);
         }
     }
 }

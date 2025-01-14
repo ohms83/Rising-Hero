@@ -30,7 +30,4 @@ MonoBehaviour:
       y: 0.8
       width: 1.4
       height: 1.3
-  aiStates:
-  - {fileID: 11400000, guid: 9edf82c5f86db664da74805043c24d1e, type: 2}
-  - {fileID: 11400000, guid: 1960ff7965b7d4945b7eff46b0c825e7, type: 2}
-  - {fileID: 11400000, guid: 141ec1360af8b834f99d078c1c948d54, type: 2}
+  aiControllerPrefab: {fileID: 8921923189552382760, guid: dfeb597f1e724c446be535cc9ee26851, type: 3}

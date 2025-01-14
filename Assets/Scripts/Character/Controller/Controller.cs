@@ -1,33 +1,42 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 
 namespace Character.Controller
 {
-    [RequireComponent(typeof(GameCharacter))]
     public class ControllerBase : MonoBehaviour
     {
+        [SerializeField] private GameCharacter m_controlledCharacter;
+        
         public GameCharacter ControlledCharacter
         {
-            get;
-            private set;
+            get => m_controlledCharacter;
+            set
+            {
+                if (m_controlledCharacter != null)
+                    m_controlledCharacter.onCharacterDeath.RemoveListener(OnCharacterDeath);
+                
+                value.onCharacterDeath.AddListener(OnCharacterDeath);
+                m_controlledCharacter = value;
+            }
         }
 
         protected virtual void Awake()
         {
-            ControlledCharacter = GetComponent<GameCharacter>();
-            Assert.IsNotNull(ControlledCharacter);
+            if (m_controlledCharacter == null)
+                return;
+            ControlledCharacter = m_controlledCharacter;
         }
 
         protected virtual void OnEnable()
         {
-            ControlledCharacter.onCharacterDeath.AddListener(OnCharacterDeath);
         }
 
         protected virtual void OnDisable()
         {
-            ControlledCharacter.onCharacterDeath.RemoveListener(OnCharacterDeath);
         }
 
         protected virtual void OnCharacterDeath(GameCharacter controlledCharacter)

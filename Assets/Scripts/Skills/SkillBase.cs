@@ -6,8 +6,9 @@ namespace Skills
 {
     public abstract class SkillBase
     {
-        public float CooldownTime = 1;
-        private bool m_isAutoCast = false;
+        public float cooldownTime = 1;
+        private bool m_isAutoCast;
+        private IEnumerator m_cooldownCoroutine;
 
         public bool IsAutoCast
         {
@@ -15,6 +16,8 @@ namespace Skills
             set
             {
                 m_isAutoCast = value;
+                // There's no need to stop cooldown since the coroutine will automatically stop
+                // when the auto-cast is disabled.
                 if (value)
                     BeginCooldown();
             }
@@ -29,8 +32,8 @@ namespace Skills
         public bool CanActivate => !IsCoolDown && m_owner != null;
         
         public delegate void SkillCallback(SkillBase skill);
-        public SkillCallback OnFinishedCooldown;
-        public SkillCallback OnSkillActivated;
+        public SkillCallback onFinishedCooldown;
+        public SkillCallback onSkillActivated;
 
         private readonly MonoBehaviour m_owner;
 
@@ -44,16 +47,25 @@ namespace Skills
             if (!CanActivate)
                 return;
             ActivateInternal();
-            OnSkillActivated?.Invoke(this);
+            onSkillActivated?.Invoke(this);
         }
         
         protected abstract void ActivateInternal();
 
-        public void BeginCooldown()
+        private void BeginCooldown()
+        {
+            // ReSharper disable once Unity.PerformanceCriticalCodeNullComparison
+            if (m_owner == null || m_cooldownCoroutine != null)
+                return;
+            m_cooldownCoroutine = CooldownCoroutine();
+            m_owner.StartCoroutine(m_cooldownCoroutine);
+        }
+
+        private void StopCooldown()
         {
             if (m_owner == null)
                 return;
-            m_owner.StartCoroutine(CooldownCoroutine());
+            m_owner.StopCoroutine(m_cooldownCoroutine);
         }
 
         private IEnumerator CooldownCoroutine()
@@ -61,16 +73,18 @@ namespace Skills
             while (true)
             {
                 IsCoolDown = true;
-                yield return new WaitForSeconds(CooldownTime);
+                yield return new WaitForSeconds(cooldownTime);
 
                 IsCoolDown = false;
-                OnFinishedCooldown?.Invoke(this);
+                onFinishedCooldown?.Invoke(this);
                 
                 if (IsAutoCast)
                     Activate();
                 else
                     break;
             }
+
+            m_cooldownCoroutine = null;
         }
         
         public static bool IsValidSkillType(SkillType skillType)
