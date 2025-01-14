@@ -7,6 +7,7 @@ using Gameplay;
 using Gameplay.Equipment;
 using Pattern;
 using ScriptableObjects.Character;
+using ScriptableObjects.Common.DataBus;
 using ScriptableObjects.Event;
 using Skills;
 using UnityEngine;
@@ -18,9 +19,6 @@ namespace Character
     [RequireComponent(typeof(Movement))]
     public class GameCharacter : MonoBehaviour, IEquipable
     {
-        public ValueEvent<int> health;
-        public bool IsDeath => health.Value <= 0;
-        
         [Tooltip("A shared and immutable data containing crucial information about the character--sprite, animation, stats, etc.")]
         [SerializeField] private GameCharacterData sharedData;
         [SerializeField] private SpriteRenderer characterSprite;
@@ -30,6 +28,11 @@ namespace Character
 
         #region Stats
         
+        public ValueEvent<int> health;
+        [Tooltip("A data-bus that is used to shared this character's current and the max HP to the other objects")]
+        public IntCappedValueDataBus healthDataBus;
+        public bool IsDeath => health.Value <= 0;
+
         private Stats m_stats;
 
         public Stats Stats
@@ -55,6 +58,9 @@ namespace Character
             }
             
             // TODO: Apply skill's effects
+
+            if (healthDataBus != null)
+                healthDataBus.max = CombinedStats.MaxHealth;
         }
 
         #endregion
@@ -207,6 +213,9 @@ namespace Character
 
         private void OnHealthUpdated(int oldValue, int newValue)
         {
+            if (healthDataBus != null)
+                healthDataBus.value = newValue;
+
             if (newValue <= 0)
             {
                 OnDeath();

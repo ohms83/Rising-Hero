@@ -4,7 +4,6 @@ using Character;
 using Gameplay;
 using Gameplay.Equipment;
 using Skills;
-using UnityEditor.Animations;
 using UnityEngine;
 
 namespace ScriptableObjects.Character

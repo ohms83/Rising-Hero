@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Character.Controller;
 using ScriptableObjects.Character;
+using ScriptableObjects.Common.DataBus;
 using UnityEngine;
 
 namespace ScriptableObjects.Gameplay
@@ -23,6 +24,7 @@ namespace ScriptableObjects.Gameplay
         [Tooltip("If set, player's AutoCastAllSkills flag will be raised.")]
         public bool playerAutoCastSkills;
         public ControllerBase playerControllerPrefab;
+        public IntCappedValueDataBus playerHealthDataBus;
         
         [Header("Enemy")]
         public List<EnemySpawnData> enemyData;

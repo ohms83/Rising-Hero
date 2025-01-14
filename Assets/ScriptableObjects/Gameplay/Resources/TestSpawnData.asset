@@ -16,6 +16,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 04bcd950845ade646899574614740387, type: 2}
   playerAutoCastSkills: 1
   playerControllerPrefab: {fileID: 3570051923711137075, guid: d6ae54aacfb55ca43a4b93060232e7cf, type: 3}
+  playerHealthDataBus: {fileID: 11400000, guid: fab0a976cbaa2c84d9714bca17c55f7b, type: 2}
   enemyData:
   - enemyData: {fileID: 11400000, guid: 69cfd85ab2f11f74caebe4cc12768f37, type: 2}
     spawnInterval: 2

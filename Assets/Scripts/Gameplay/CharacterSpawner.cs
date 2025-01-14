@@ -64,6 +64,7 @@ namespace Gameplay
             {
                 playerCharacter.SetAutoCast(m_spawnerData.playerAutoCastSkills);
                 playerCharacter.onCharacterDeath.AddListener(OnPlayerDeath);
+                playerCharacter.healthDataBus = m_spawnerData.playerHealthDataBus;
                 m_playerSpawnedEvent.onEventRaised?.Invoke(playerCharacter);
                 m_playerCharacters.Add(playerCharacter);
             }
