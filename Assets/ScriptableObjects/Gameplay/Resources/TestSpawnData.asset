@@ -16,8 +16,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 04bcd950845ade646899574614740387, type: 2}
   playerAutoCastSkills: 1
   playerControllerPrefab: {fileID: 3570051923711137075, guid: d6ae54aacfb55ca43a4b93060232e7cf, type: 3}
-  enemyCharacters:
-  - {fileID: 11400000, guid: 69cfd85ab2f11f74caebe4cc12768f37, type: 2}
-  spawnInterval: 2
-  maxEnemySpawnCount: 10
-  enemySpawnRadius: 8
+  enemyData:
+  - enemyData: {fileID: 11400000, guid: 69cfd85ab2f11f74caebe4cc12768f37, type: 2}
+    spawnInterval: 2
+    maxEnemySpawnCount: 10
+    enemySpawnRadius: 10
+  - enemyData: {fileID: 11400000, guid: 2ec793e9462774541b328114fcb1c8e7, type: 2}
+    spawnInterval: 5
+    maxEnemySpawnCount: 5
+    enemySpawnRadius: 10

@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b2de3515500e4251a0da365f546bc452, type: 3}
-  m_Name: BanditData
+  m_Name: HeavyBanditData
   m_EditorClassIdentifier: 
-  prefab: {fileID: 35957944120000693, guid: 79cacb237f693a9479ce4c06ad198737, type: 3}
+  prefab: {fileID: 35957944120000693, guid: 0b06080f6da3e6d4bb0a58ffa57d2eb6, type: 3}
   defaultStats:
-    m_maxHealth: 30
-    m_attack: 10
-    m_defence: 5
-    m_moveSpeed: 2
+    m_maxHealth: 50
+    m_attack: 15
+    m_defence: 8
+    m_moveSpeed: 1.5
   defaultSkills: 
   defaultEquipments:
   - {fileID: -528452121079062625, guid: c937026fdd35b1343b4c230b3c3dd0de, type: 3}
   hurtBoxes: []
   attackData:
-  - animationClip: {fileID: 7400000, guid: 4d89c9b27cd1d4a49906c7cb00135f73, type: 2}
+  - animationClip: {fileID: 7400000, guid: 3a66f2605fe36d843ad10b61aa4ab4e2, type: 2}
     hitBox:
       serializedVersion: 2
       x: 0.2

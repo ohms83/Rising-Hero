@@ -14,13 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4357449485682963325, guid: 5071412a1ae4ee44494026283d72b4e5, type: 3}
   defaultStats:
-    maxHealth: 0
-    attack: 0
-    defence: 0
-    moveSpeed: 0
-    onDeath:
-      m_PersistentCalls:
-        m_Calls: []
+    m_maxHealth: 100
+    m_attack: 20
+    m_defence: 5
+    m_moveSpeed: 2
   defaultSkills: 
   defaultEquipments:
   - {fileID: -528452121079062625, guid: c937026fdd35b1343b4c230b3c3dd0de, type: 3}

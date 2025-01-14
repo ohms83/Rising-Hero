@@ -21,14 +21,44 @@ namespace Character
         public ValueEvent<int> health;
         public bool IsDeath => health.Value <= 0;
         
-        [SerializeField] private Stats stats;
         [Tooltip("A shared and immutable data containing crucial information about the character--sprite, animation, stats, etc.")]
         [SerializeField] private GameCharacterData sharedData;
         [SerializeField] private SpriteRenderer characterSprite;
         [SerializeField] private CharacterAnimation characterAnimation;
         // public SpriteRenderer CharacterSprite => characterSprite;
         public CharacterAnimation CharacterAnimation => characterAnimation;
-        public Stats Stats => stats;
+
+        #region Stats
+        
+        private Stats m_stats;
+
+        public Stats Stats
+        {
+            get => m_stats;
+            set
+            {
+                m_stats = value;
+                ComputeStats();
+            }
+        }
+        public Stats CombinedStats { get; private set; }
+
+        /// <summary>
+        /// Re-compute the CombinedStats
+        /// </summary>
+        private void ComputeStats()
+        {
+            CombinedStats = Stats;
+            foreach (var equipment in m_equipments.Values)
+            {
+                CombinedStats += equipment.Stats;
+            }
+            
+            // TODO: Apply skill's effects
+        }
+
+        #endregion
+        
         public GameCharacterData SharedData => sharedData;
 
         public ControllerBase Controller
@@ -59,19 +89,20 @@ namespace Character
         #region Equipment
         
         private readonly Dictionary<EquipmentType, Equipment> m_equipments = new ();
-        
-        public Stats CombinedStats { get; private set; }
         public void Equip(Equipment newEquipment)
         {
+            EquipWithoutComputingStats(newEquipment);
+            ComputeStats();
+        }
+
+        private void EquipWithoutComputingStats(Equipment newEquipment)
+        {
             m_equipments.Add(newEquipment.Type, newEquipment);
-
-            CombinedStats = Stats;
-            foreach (var equipment in m_equipments.Values)
+            
+            foreach (var equipment in m_equipments.Values
+                         .Where(equipment => SkillBase.IsValidSkillType(equipment.Skill)))
             {
-                CombinedStats += equipment.Stats;
-
-                if (SkillBase.IsValidSkillType(equipment.Skill))
-                    EquipSkillType(equipment.Skill);
+                EquipSkillType(equipment.Skill);
             }
 
             newEquipment.Owner = this;
@@ -119,17 +150,20 @@ namespace Character
             InitCharacterData();
             health.onValueChanged.AddListener(OnHealthUpdated);
             health.Value = CombinedStats.MaxHealth;
+            // Handle the case when the character is incorrectly setup.
+            if (IsDeath)
+                OnDeath();
         }
 
         // Update is called once per frame
         private void Update()
         {
             var moveX = Movement.MoveVector.x;
-            if (moveX != 0 && !ReferenceEquals(characterSprite, null))
-            {
-                var yaw = moveX < 0 ? 180f : 0f;
-                characterSprite.transform.eulerAngles = new Vector3(0, yaw, 0);
-            }
+            if (moveX == 0 || ReferenceEquals(characterSprite, null))
+                return;
+            
+            var yaw = moveX < 0 ? 180f : 0f;
+            characterSprite.transform.eulerAngles = new Vector3(0, yaw, 0);
         }
 
         private void OnDestroy()
@@ -153,10 +187,13 @@ namespace Character
                          .Select(Instantiate)
                          .Where(equipment => equipment != null))
             {
-                Equip(equipment);
+                EquipWithoutComputingStats(equipment);
             }
+            
+            // Stats setter will automatically re-compute the CombinedStats
+            Stats = sharedData.defaultStats;
 
-            Movement.MoveSpeed = stats.MoveSpeed;
+            Movement.MoveSpeed = m_stats.MoveSpeed;
         }
 
         public void TakeDamage(int damage)

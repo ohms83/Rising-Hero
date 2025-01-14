@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 1769950890426188727, guid: beb1697bfe042b54f9136e68f85ee62f, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 22100000, guid: 9e1fd22c0ce0f4142b7662ddffcb4101, type: 2}
+      objectReference: {fileID: 22100000, guid: 0c21bd1a25030c248a84ccc32d0323d2, type: 2}
     - target: {fileID: 2208685117694796470, guid: beb1697bfe042b54f9136e68f85ee62f, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.2
@@ -66,12 +66,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2692481887519241732, guid: beb1697bfe042b54f9136e68f85ee62f, type: 3}
       propertyPath: m_Name
-      value: Bandit
+      value: HeavyBandit
       objectReference: {fileID: 0}
     - target: {fileID: 3982718283243551686, guid: beb1697bfe042b54f9136e68f85ee62f, type: 3}
       propertyPath: sharedData
       value: 
-      objectReference: {fileID: 11400000, guid: 69cfd85ab2f11f74caebe4cc12768f37, type: 2}
+      objectReference: {fileID: 11400000, guid: 2ec793e9462774541b328114fcb1c8e7, type: 2}
     - target: {fileID: 3982718283243551686, guid: beb1697bfe042b54f9136e68f85ee62f, type: 3}
       propertyPath: stats.attack
       value: 0
@@ -115,7 +115,7 @@ PrefabInstance:
     - target: {fileID: 6411885540895764012, guid: beb1697bfe042b54f9136e68f85ee62f, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: f2ed27d6c1c3ccc48959bcca269d88f0, type: 3}
+      objectReference: {fileID: 21300000, guid: e181cf568e9abb8458b4f0618377776a, type: 3}
     - target: {fileID: 6411885540895764012, guid: beb1697bfe042b54f9136e68f85ee62f, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1

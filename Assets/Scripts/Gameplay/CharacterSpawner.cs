@@ -21,10 +21,14 @@ namespace Gameplay
         private readonly List<GameCharacter> m_playerCharacters = new ();
         private readonly List<GameCharacter> m_spawnedEnemies = new ();
         private IEnumerator m_spawnCoroutine;
+        private readonly List<IEnumerator> m_spawnCoroutines = new ();
 
         private void Awake()
         {
-            m_spawnCoroutine = SpawnLoop();
+            foreach (var spawnData in spawnerData.enemyData)
+            {
+                m_spawnCoroutines.Add(SpawnLoop(spawnData));
+            }
         }
 
         private void Start()
@@ -35,12 +39,22 @@ namespace Gameplay
 
         private void OnEnable()
         {
-            StartCoroutine(m_spawnCoroutine);
+            // StartCoroutine(m_spawnCoroutine);
+            
+            foreach (var coroutine in m_spawnCoroutines)
+            {
+                StartCoroutine(coroutine);
+            }
         }
 
         private void OnDisable()
         {
-            StopCoroutine(m_spawnCoroutine);
+            // StopCoroutine(m_spawnCoroutine);
+            
+            foreach (var coroutine in m_spawnCoroutines)
+            {
+                StopCoroutine(coroutine);
+            }
         }
 
         private void OnPlayerDeath(GameCharacter player)
@@ -72,28 +86,27 @@ namespace Gameplay
             return controller;
         }
 
-        private IEnumerator SpawnLoop()
+        private IEnumerator SpawnLoop(EnemySpawnData spawnData)
         {
-            if (spawnerData.enemyCharacters.Count == 0)
+            if (spawnData.enemyData.prefab == null)
             {
                 yield break;
             }
             
             while (true)
             {
-                yield return new WaitForSeconds(spawnerData.spawnInterval);
+                yield return new WaitForSeconds(spawnData.spawnInterval);
                 
-                if (m_spawnedEnemies.Count >= spawnerData.maxEnemySpawnCount)
+                if (m_spawnedEnemies.Count >= spawnData.maxEnemySpawnCount)
                     continue;
 
                 var radian = Random.Range(0, 2 * Mathf.PI);
-                var x = Mathf.Cos(radian) * spawnerData.enemySpawnRadius;
-                var y = Mathf.Sin(radian) * spawnerData.enemySpawnRadius;
+                var x = Mathf.Cos(radian) * spawnData.enemySpawnRadius;
+                var y = Mathf.Sin(radian) * spawnData.enemySpawnRadius;
                 var playerPos = GetPlayerPosition();
                 
-                // TODO: Spawn various enemy types
-                var enemyData = (EnemyCharacterData)spawnerData.enemyCharacters[0];
-                Assert.IsNotNull(enemyData, $"{spawnerData.enemyCharacters[0]} is not a EnemyCharacterData type.");
+                var enemyData = (EnemyCharacterData)spawnData.enemyData;
+                Assert.IsNotNull(enemyData, $"{spawnData.enemyData} is not a EnemyCharacterData type.");
                 
                 var enemy = Instantiate(
                     enemyData.prefab,

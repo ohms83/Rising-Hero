@@ -320,7 +320,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnerData: {fileID: 11400000, guid: 18bda171fcd952c409a9d167f8f2bce1, type: 2}
   playerSpawnedEvent: {fileID: 11400000, guid: 9ebadda9bd91b924da54eb3d24034e3a, type: 2}
-  playerDeathEvent: {fileID: 11400000, guid: 595a5d5803ab66c4e92156b3a5211de4, type: 2}
 --- !u!4 &894194533
 Transform:
   m_ObjectHideFlags: 0

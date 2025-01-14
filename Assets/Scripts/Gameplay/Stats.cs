@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace Gameplay
 {
@@ -8,45 +9,45 @@ namespace Gameplay
     public struct Stats
     {
         [SerializeField]
-        private int maxHealth;
+        private int m_maxHealth;
         public int MaxHealth
         {
-            get => maxHealth;
-            set => maxHealth = value;
+            get => m_maxHealth;
+            set => m_maxHealth = value;
         }
         
         [SerializeField]
-        private int attack;
+        private int m_attack;
         public int Attack
         {
-            get => attack;
-            set => attack = value;
+            get => m_attack;
+            set => m_attack = value;
         }
         
         [SerializeField]
-        private int defence;
+        private int m_defence;
         public int Defence
         {
-            get => defence;
-            set => defence = value;
+            get => m_defence;
+            set => m_defence = value;
         }
         
         [SerializeField]
-        private int moveSpeed;
-        public int MoveSpeed
+        private float m_moveSpeed;
+        public float MoveSpeed
         {
-            get => moveSpeed;
-            set => moveSpeed = value;
+            get => m_moveSpeed;
+            set => m_moveSpeed = value;
         }
         
         public static Stats operator + (Stats a, Stats b)
         {
             return new Stats
             {
-                attack = a.attack + b.attack,
-                defence = a.defence + b.defence,
-                maxHealth = a.maxHealth + b.maxHealth,
-                moveSpeed = a.moveSpeed + b.moveSpeed,
+                m_attack = a.m_attack + b.m_attack,
+                m_defence = a.m_defence + b.m_defence,
+                m_maxHealth = a.m_maxHealth + b.m_maxHealth,
+                m_moveSpeed = a.m_moveSpeed + b.m_moveSpeed,
             };
         }
     }
