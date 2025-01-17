@@ -281,6 +281,7 @@ GameObject:
   - component: {fileID: 1689374402674326994}
   - component: {fileID: -5308753907243188676}
   - component: {fileID: 7104277431015368056}
+  - component: {fileID: 4166558162976811656}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -395,15 +396,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 599b01c5aac1f7e4195a0158b50258cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats:
-    maxHealth: 0
-    attack: 0
-    defence: 0
-    moveSpeed: 0
   sharedData: {fileID: 0}
   characterSprite: {fileID: 6479948354123738070}
   characterAnimation: {fileID: 8385797382601513893}
-  autoCastAllSkills: 0
+  health:
+    _value: 0
+    onValueChanged:
+      m_PersistentCalls:
+        m_Calls: []
+  healthDataBus: {fileID: 0}
+  m_autoCastAllSkills: 0
+  onCharacterDestroyed:
+    m_PersistentCalls:
+      m_Calls: []
+  onCharacterDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  m_characterSpawnedEvent: {fileID: 0}
+  m_characterDeathEvent: {fileID: 0}
 --- !u!114 &7104277431015368056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -418,6 +428,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterAnimation: {fileID: 8385797382601513893}
   destroyOnDeath: 1
+--- !u!114 &4166558162976811656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2615306454950999038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 657a45c36b2d327449aea1ff79d73436, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_defaultSkills: []
+  m_autoCast: 0
 --- !u!1 &4037133931395996632
 GameObject:
   m_ObjectHideFlags: 0

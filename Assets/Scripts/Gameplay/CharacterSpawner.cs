@@ -62,7 +62,7 @@ namespace Gameplay
             foreach (var playerCharacter in
                      m_spawnerData.playerCharacters.Select(characterData => Instantiate(characterData.prefab)))
             {
-                playerCharacter.SetAutoCast(m_spawnerData.playerAutoCastSkills);
+                playerCharacter.SkillSystem.SetAutoCast(m_spawnerData.playerAutoCastSkills);
                 playerCharacter.onCharacterDeath.AddListener(OnPlayerDeath);
                 playerCharacter.healthDataBus = m_spawnerData.playerHealthDataBus;
                 m_playerSpawnedEvent.onEventRaised?.Invoke(playerCharacter);
@@ -78,7 +78,7 @@ namespace Gameplay
             if (prefab == null)
                 return null;
             var controller = Instantiate(prefab, character.transform, true);
-            controller.ControlledCharacter = character;
+            character.Controller = controller;
             return controller;
         }
 

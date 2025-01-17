@@ -12,7 +12,6 @@ using ScriptableObjects.Event;
 using Skills;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 namespace Character
 {
@@ -69,28 +68,21 @@ namespace Character
 
         public ControllerBase Controller
         {
+            get => m_controller;
+            set
+            {
+                if (value != null)
+                    value.ControlledCharacter = this;
+                m_controller = value;
+            }
+        }
+        private ControllerBase m_controller;
+
+        public SkillSystem SkillSystem
+        {
             get;
             private set;
         }
-
-        #region Skill
-        
-        [Tooltip("If set, all the equipped skills will be auto-cast.")]
-        [SerializeField] private bool m_autoCastAllSkills;
-
-        public void SetAutoCast(bool flag)
-        {
-            foreach (var skill in Skills)
-            {
-                skill.IsAutoCast = flag;
-            }
-            m_autoCastAllSkills = flag;
-        }
-        
-        private readonly HashSet<SkillBase> m_skills = new();
-        public HashSet<SkillBase> Skills => m_skills;
-        
-        #endregion
 
         #region Equipment
         
@@ -105,11 +97,7 @@ namespace Character
         {
             m_equipments.Add(newEquipment.Type, newEquipment);
             
-            foreach (var equipment in m_equipments.Values
-                         .Where(equipment => SkillBase.IsValidSkillType(equipment.Skill)))
-            {
-                EquipSkillType(equipment.Skill);
-            }
+            // TODO: Equip weapon's skills
 
             newEquipment.Owner = this;
             newEquipment.gameObject.layer = gameObject.layer;
@@ -139,8 +127,8 @@ namespace Character
         {
             CombinedStats = Stats;
             
-            Controller = GetComponent<ControllerBase>();
             Movement = GetComponent<Movement>();
+            SkillSystem = GetComponent<SkillSystem>();
             
             m_deathBehaviour = GetComponent<DeathBehaviour>();
             if (m_deathBehaviour == null)
@@ -181,13 +169,6 @@ namespace Character
         {
             if (sharedData == null)
                 return;
-            
-            foreach (var skill in sharedData.defaultSkills
-                         .Select(skillType => SkillFactory.CreateSkill(skillType, this))
-                         .Where(skill => skill != null))
-            {
-                EquipSkill(skill);
-            }
 
             foreach (var equipment in sharedData.defaultEquipments
                          .Select(Instantiate)
@@ -222,26 +203,6 @@ namespace Character
             }
         }
 
-        /// <summary>
-        /// Equip a skill from the specified skill type
-        /// </summary>
-        /// <param name="skillType">A SkillType enum indicating the equipping skill</param>
-        private void EquipSkillType(SkillType skillType)
-        {
-            EquipSkill(SkillFactory.CreateSkill(skillType, this));
-        }
-        
-        private void EquipSkill(SkillBase skill)
-        {
-            if (skill == null)
-                return;
-            
-            m_skills.Add(skill);
-
-            if (m_autoCastAllSkills)
-                skill.IsAutoCast = true;
-        }
-
         private void OnDeath()
         {
             foreach (var keyValue in m_equipments)
@@ -257,11 +218,6 @@ namespace Character
             
             if (m_characterDeathEvent != null)
                 m_characterDeathEvent.onEventRaised?.Invoke(this);
-        }
-
-        private void OnGUI()
-        {
-            SetAutoCast(m_autoCastAllSkills);
         }
     }
 }

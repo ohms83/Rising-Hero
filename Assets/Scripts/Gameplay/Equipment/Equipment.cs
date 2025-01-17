@@ -1,6 +1,7 @@
 using JetBrains.Annotations;
 using Skills;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Gameplay.Equipment
 {
@@ -20,13 +21,13 @@ namespace Gameplay.Equipment
     
     public class Equipment : MonoBehaviour
     {
-        [SerializeField] private EquipmentType type;
-        [SerializeField] private Stats stats;
-        [SerializeField] private SkillType skill;
+        [SerializeField] private EquipmentType m_type;
+        [SerializeField] private Stats m_stats;
+        [SerializeField] private SkillEffect m_skill;
 
-        public EquipmentType Type => type;
-        public Stats Stats => stats;
-        public SkillType Skill => skill;
+        public EquipmentType Type => m_type;
+        public Stats Stats => m_stats;
+        public SkillEffect Skill => m_skill;
 
         private IEquipable m_owner;
         public IEquipable Owner

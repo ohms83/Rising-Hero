@@ -2,6 +2,7 @@ using System;
 using Character;
 using Character.Controller;
 using Pattern;
+using Skills;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -15,12 +16,24 @@ namespace ScriptableObjects.Character.Controller.AIState
             StateEnum = AIStateEnum.Attack;
         }
 
+        // ReSharper disable Unity.PerformanceAnalysis
         public override void OnEnter(IStateMachineOwner<AIStateEnum> owner)
         {
             var ownerAI = (AIController)owner;
             Assert.IsNotNull(ownerAI);
             
-            ownerAI.ControlledCharacter.CharacterAnimation.Attack();
+            // ownerAI.ControlledCharacter.CharacterAnimation.Attack();
+            var skill = ownerAI.ControlledCharacter.SkillSystem.ActivateSkill(SkillType.MeleeAttack);
+            if (skill == null)
+                return;
+            skill.onFinishedCooldown += @base =>
+            {
+                var aiController = (AIController)@base.Owner.Controller;
+                if (aiController == null)
+                    return;
+
+                aiController.StateMachine.ChangeState(AIStateEnum.Idle);
+            };
         }
 
         public override void OnExit(IStateMachineOwner<AIStateEnum> owner)
@@ -29,14 +42,6 @@ namespace ScriptableObjects.Character.Controller.AIState
 
         public override void OnUpdate(IStateMachineOwner<AIStateEnum> owner)
         {
-            var ownerAI = (AIController)owner;
-            Assert.IsNotNull(ownerAI);
-            
-            var animator = ownerAI.ControlledCharacter.CharacterAnimation;
-            if (animator.IsAnimState(CharacterAnimation.AttackState))
-                return;
-            
-            owner.StateMachine.ChangeState(AIStateEnum.Idle);
         }
     }
 }

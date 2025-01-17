@@ -1,100 +1,81 @@
 using System;
-using System.Collections;
-using UnityEngine;
+using System.Collections.Generic;
+using Character;
+using UnityEngine.InputSystem;
 
 namespace Skills
 {
-    public abstract class SkillBase
+    public class SkillBase
     {
-        public float cooldownTime = 1;
-        private bool m_isAutoCast;
-        private IEnumerator m_cooldownCoroutine;
+        public Action<SkillBase> onFinishedActivation;
+        public Action<SkillBase> onFinishedCooldown;
 
-        public bool IsAutoCast
+        private readonly GameCharacter m_owner;
+        private readonly SkillEffect m_effect;
+        
+        public bool IsActive
         {
-            get => m_isAutoCast;
-            set
-            {
-                m_isAutoCast = value;
-                // There's no need to stop cooldown since the coroutine will automatically stop
-                // when the auto-cast is disabled.
-                if (value)
-                    BeginCooldown();
-            }
+            get;
+            private set;
         }
-
-        public bool IsCoolDown
+        public bool IsCooldown
         {
             get;
             private set;
         }
 
-        public bool CanActivate => !IsCoolDown && m_owner != null;
-        
-        public delegate void SkillCallback(SkillBase skill);
-        public SkillCallback onFinishedCooldown;
-        public SkillCallback onSkillActivated;
+        public GameCharacter Owner => m_owner;
 
-        private readonly MonoBehaviour m_owner;
-
-        protected SkillBase(MonoBehaviour owner)
+        public SkillBase(GameCharacter owner, SkillEffect effect)
         {
             m_owner = owner;
+            m_effect = effect;
         }
 
         public void Activate()
         {
-            if (!CanActivate)
-                return;
-            ActivateInternal();
-            onSkillActivated?.Invoke(this);
+            MEC.Timing.RunCoroutine(ActivateSkillEffect(m_effect));
         }
-        
-        protected abstract void ActivateInternal();
 
-        private void BeginCooldown()
+        public void Deactivate()
         {
-            // ReSharper disable once Unity.PerformanceCriticalCodeNullComparison
-            if (m_owner == null || m_cooldownCoroutine != null)
-                return;
-            m_cooldownCoroutine = CooldownCoroutine();
-            m_owner.StartCoroutine(m_cooldownCoroutine);
+            m_effect.Deactivate(m_owner);
         }
 
-        private void StopCooldown()
+        private IEnumerator<float> ActivateSkillEffect(SkillEffect effect)
         {
-            if (m_owner == null)
-                return;
-            m_owner.StopCoroutine(m_cooldownCoroutine);
+            // Activate
+            yield return MEC.Timing.WaitUntilDone(MEC.Timing.RunCoroutine(ActivationCoroutine(effect)));
+            // Cooldown
+            yield return MEC.Timing.WaitUntilDone(MEC.Timing.RunCoroutine(CooldownCoroutine(effect)));
         }
 
-        private IEnumerator CooldownCoroutine()
+        private IEnumerator<float> ActivationCoroutine(SkillEffect effect)
         {
-            while (true)
-            {
-                IsCoolDown = true;
-                yield return new WaitForSeconds(cooldownTime);
+            effect.Activate(m_owner);
+            IsActive = true;
+            yield return MEC.Timing.WaitForSeconds(effect.data.activeTime);
 
-                IsCoolDown = false;
-                onFinishedCooldown?.Invoke(this);
-                
-                if (IsAutoCast)
-                    Activate();
-                else
-                    break;
-            }
+            // Passive skills is permanently active .
+            if (effect.data.activeCondition == ActiveCondition.Passive)
+                yield break;
+            
+            effect.Deactivate(m_owner);
+            IsActive = false;
 
-            m_cooldownCoroutine = null;
+            yield return MEC.Timing.WaitForOneFrame;
+            onFinishedActivation?.Invoke(this);
         }
-        
-        public static bool IsValidSkillType(SkillType skillType)
+
+        private IEnumerator<float> CooldownCoroutine(SkillEffect effect)
         {
-            return skillType != SkillType.None && skillType != SkillType.Max;
+            IsCooldown = true;
+            
+            yield return MEC.Timing.WaitForSeconds(effect.data.cooldown);
+            
+            IsCooldown = false;
+            yield return MEC.Timing.WaitForOneFrame;
+            onFinishedCooldown?.Invoke(this);
         }
-    }
-
-    public interface ISkillCreator
-    {
-        public SkillBase CreateSkill(MonoBehaviour owner);
     }
 }

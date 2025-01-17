@@ -91,11 +91,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4b3f18608bc47118c8286c65f6c737a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
-  stats:
-    maxHealth: 0
-    attack: 10
-    defence: 0
-    moveSpeed: 0
-  skill: 1
-  hitBox: {fileID: 168512077457789359}
+  m_type: 0
+  m_stats:
+    m_maxHealth: 0
+    m_attack: 5
+    m_defence: 0
+    m_moveSpeed: 0
+  m_skill: {fileID: 0}
+  m_hitBox: {fileID: 168512077457789359}

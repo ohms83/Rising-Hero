@@ -10,5 +10,7 @@ namespace ScriptableObjects.Character
     public class EnemyCharacterData : GameCharacterData
     {
         public AIController aiControllerPrefab;
+        [Tooltip("How many experience points the enemy will give out once defeated.")]
+        public float xp;
     }
 }

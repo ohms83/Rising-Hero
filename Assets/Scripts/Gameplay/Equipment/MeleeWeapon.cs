@@ -2,12 +2,13 @@ using Character;
 using ScriptableObjects.Character;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace Gameplay.Equipment
 {
     public class MeleeWeapon : Equipment
     {
-        [SerializeField] private BoxCollider2D hitBox;
+        [SerializeField] private BoxCollider2D m_hitBox;
 
         private GameCharacterData m_ownerCharacterData;
         private UnityAction<CharacterAnimation, AnimationEvent> m_hitBoxAnimationEvent;
@@ -29,8 +30,8 @@ namespace Gameplay.Equipment
 
         private void EnableHitBox(bool isEnabled)
         {
-            if (hitBox)
-                hitBox.enabled = isEnabled;
+            if (m_hitBox)
+                m_hitBox.enabled = isEnabled;
         }
 
         protected override void OnOwnerSet(IEquipable newOwner)
@@ -47,8 +48,8 @@ namespace Gameplay.Equipment
             tmpTransform.localPosition = Vector3.zero;
 
             // Setup hit box
-            hitBox.excludeLayers |= 1 << ownerCharacter.gameObject.layer;
-            hitBox.enabled = false;
+            m_hitBox.excludeLayers |= 1 << ownerCharacter.gameObject.layer;
+            m_hitBox.enabled = false;
             
             m_ownerCharacterData = ownerCharacter.SharedData;
             BindHitBoxAnimationEvent(ownerCharacter, true);
@@ -64,8 +65,8 @@ namespace Gameplay.Equipment
             
             transform.parent = null;
             
-            hitBox.excludeLayers ^= 1 << ownerCharacter.gameObject.layer;
-            hitBox.enabled = false;
+            m_hitBox.excludeLayers ^= 1 << ownerCharacter.gameObject.layer;
+            m_hitBox.enabled = false;
             
             m_ownerCharacterData = null;
             BindHitBoxAnimationEvent(ownerCharacter, false);
@@ -90,11 +91,11 @@ namespace Gameplay.Equipment
                 var attackData =
                     m_ownerCharacterData.
                         attackData.Find(data => data.animationClip == eventArg.animatorClipInfo.clip);
-                hitBox.transform.localPosition = new Vector2(attackData.hitBox.x, attackData.hitBox.y);
-                hitBox.size = new Vector2(attackData.hitBox.width, attackData.hitBox.height);
+                m_hitBox.transform.localPosition = new Vector2(attackData.hitBox.x, attackData.hitBox.y);
+                m_hitBox.size = new Vector2(attackData.hitBox.width, attackData.hitBox.height);
             }
 
-            hitBox.enabled = isEnabled;
+            m_hitBox.enabled = isEnabled;
         }
     }
 }

@@ -48,6 +48,14 @@ PrefabInstance:
       propertyPath: 'defaultEquipments.Array.data[0]'
       value: 
       objectReference: {fileID: -528452121079062625, guid: c937026fdd35b1343b4c230b3c3dd0de, type: 3}
+    - target: {fileID: 989466775931538970, guid: c133cef6c7b12414a8d25f5fc6041823, type: 3}
+      propertyPath: m_defaultSkills.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 989466775931538970, guid: c133cef6c7b12414a8d25f5fc6041823, type: 3}
+      propertyPath: 'm_defaultSkills.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 1d9c224e727a24e4ba6a425333696d37, type: 2}
     - target: {fileID: 1162688492072605548, guid: c133cef6c7b12414a8d25f5fc6041823, type: 3}
       propertyPath: m_Name
       value: Warrior

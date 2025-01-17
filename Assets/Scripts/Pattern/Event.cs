@@ -42,6 +42,16 @@ namespace Pattern
             onEventRaised?.Invoke(param);
         }
     }
+    public abstract class Event<T1, T2> : ScriptableObject
+    {
+        [Tooltip("Register to this call back to listening events broadcasting from this event bus")]
+        public UnityAction<T1, T2> onEventRaised;
+
+        public void Broadcast(T1 param0, T2 param1)
+        {
+            onEventRaised?.Invoke(param0, param1);
+        }
+    }
 
     public abstract class EventBusListener<TEventChannel, TEventParam> : MonoBehaviour
         where TEventChannel : Event<TEventParam>
