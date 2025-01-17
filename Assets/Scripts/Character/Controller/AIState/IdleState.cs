@@ -29,6 +29,9 @@ namespace Character.Controller.AIState
         {
             var aiController = (AIController)owner;
             Assert.IsNotNull(aiController);
+
+            if (ReferenceEquals(aiController.PlayerCharacter, null))
+                return;
             
             var aggroDistanceSqr = aggroDistance * aggroDistance;
             var sqrDistance =

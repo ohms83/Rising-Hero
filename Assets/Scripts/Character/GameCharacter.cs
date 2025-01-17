@@ -132,9 +132,6 @@ namespace Character
             m_deathBehaviour = GetComponent<DeathBehaviour>();
             if (m_deathBehaviour == null)
                 Debug.LogAssertion($"{gameObject} has no DeathBehaviour attache");
-            
-            if (m_characterSpawnedEvent != null)
-                m_characterSpawnedEvent.onEventRaised?.Invoke(this);
         }
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -214,9 +211,6 @@ namespace Character
 
             m_deathBehaviour.BeginDeathSequence();
             onCharacterDeath?.Invoke(this);
-            
-            if (m_characterDeathEvent != null)
-                m_characterDeathEvent.onEventRaised?.Invoke(this);
         }
     }
 }

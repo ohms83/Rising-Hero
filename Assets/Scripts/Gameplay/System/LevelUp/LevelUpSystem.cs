@@ -19,7 +19,7 @@ namespace Gameplay.System.LevelUp
         private void Awake()
         {
             m_player = GetComponent<GameCharacter>();
-            m_enemyDeathEvent.onEventRaised += OnEnemyDeath;
+            m_enemyDeathEvent.AddListener(OnEnemyDeath);
         }
 
         private void OnEnemyDeath(GameCharacter enemy)

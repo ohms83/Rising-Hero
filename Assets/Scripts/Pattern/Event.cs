@@ -1,24 +1,25 @@
 using System;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace Pattern
 {
     [Serializable]
     public class ValueEvent<T>
     {
-        [SerializeField] private T _value;
+        [SerializeField] private T m_value;
 
         public T Value
         {
-            get => _value;
+            get => m_value;
             set
             {
-                if (!_value.Equals(value))
+                if (!m_value.Equals(value))
                 {
-                    onValueChanged?.Invoke(_value, value);
+                    onValueChanged?.Invoke(m_value, value);
                 }
-                _value = value;
+                m_value = value;
             }
         }
         
@@ -34,49 +35,40 @@ namespace Pattern
     }
     public abstract class Event<T> : ScriptableObject
     {
-        [Tooltip("Register to this call back to listening events broadcasting from this event bus")]
-        public UnityAction<T> onEventRaised;
+        private UnityAction<T> m_onEventRaised;
 
         public void Broadcast(T param)
         {
-            onEventRaised?.Invoke(param);
+            m_onEventRaised?.Invoke(param);
+        }
+
+        public void AddListener(UnityAction<T> listener)
+        {
+            m_onEventRaised += listener;
+        }
+
+        public void RemoveListener(UnityAction<T> listener)
+        {
+            m_onEventRaised -= listener;
         }
     }
     public abstract class Event<T1, T2> : ScriptableObject
     {
-        [Tooltip("Register to this call back to listening events broadcasting from this event bus")]
-        public UnityAction<T1, T2> onEventRaised;
+        private UnityAction<T1, T2> m_onEventRaised;
 
         public void Broadcast(T1 param0, T2 param1)
         {
-            onEventRaised?.Invoke(param0, param1);
-        }
-    }
-
-    public abstract class EventBusListener<TEventChannel, TEventParam> : MonoBehaviour
-        where TEventChannel : Event<TEventParam>
-    {
-        [SerializeField] protected TEventChannel eventSource;
-        [SerializeField] protected UnityEvent<TEventParam> eventHandlers;
-
-        protected void OnEnable()
-        {
-            if (eventSource != null)
-            {
-                eventSource.onEventRaised += HandleEvent;
-            }
-        }
-        protected void OnDisable()
-        {
-            if (eventSource != null)
-            {
-                eventSource.onEventRaised -= HandleEvent;
-            }
+            m_onEventRaised?.Invoke(param0, param1);
         }
 
-        private void HandleEvent(TEventParam param)
+        public void AddListener(UnityAction<T1, T2> listener)
         {
-            eventHandlers?.Invoke(param);
+            m_onEventRaised += listener;
+        }
+
+        public void RemoveListener(UnityAction<T1, T2> listener)
+        {
+            m_onEventRaised -= listener;
         }
     }
 }

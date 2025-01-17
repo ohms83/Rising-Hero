@@ -4,6 +4,7 @@ using Event;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Events;
 
 namespace Gameplay
 {
@@ -18,7 +19,7 @@ namespace Gameplay
         private void Awake()
         {
             enabled = false;
-            m_playerSpawnedEvent.onEventRaised += OnPlayerSpawned;
+            m_playerSpawnedEvent.AddListener(OnPlayerSpawned);
 
             m_camera = GetComponent<CinemachineCamera>();
             m_followTarget = new GameObject("CameraTarget");
