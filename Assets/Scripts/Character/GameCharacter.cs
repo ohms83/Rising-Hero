@@ -1,14 +1,13 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Character.Behaviour;
 using Character.Controller;
+using Character.Data;
+using Common.DataBus;
+using Event;
 using Gameplay;
 using Gameplay.Equipment;
 using Pattern;
-using ScriptableObjects.Character;
-using ScriptableObjects.Common.DataBus;
-using ScriptableObjects.Event;
 using Skills;
 using UnityEngine;
 using UnityEngine.Events;

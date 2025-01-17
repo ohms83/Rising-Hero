@@ -1,9 +1,6 @@
 // #define DEBUG_PLAYER_CONTROLLER
 
-using System;
-using Character.Behaviour;
 using UnityEngine;
-using UnityEngine.Assertions;
 using UnityEngine.InputSystem;
 
 namespace Character.Controller

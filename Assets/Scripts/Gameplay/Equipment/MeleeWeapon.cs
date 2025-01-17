@@ -1,8 +1,7 @@
 using Character;
-using ScriptableObjects.Character;
+using Character.Data;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 namespace Gameplay.Equipment
 {

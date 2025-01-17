@@ -1,7 +1,6 @@
 using System.Collections.Generic;
+using Character.Controller.AIState;
 using Pattern;
-using ScriptableObjects.Character.Controller.AIState;
-using ScriptableObjects.Event;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -31,7 +30,7 @@ namespace Character.Controller
         #region State Machine
 
         [Tooltip("A list of AI states that will be registered to this AI")]
-        [SerializeField] private List<AIState> states = new ();
+        [SerializeField] private List<AIState.AIState> states = new ();
         [SerializeField] private AIStateEnum defaultState = AIStateEnum.Idle;
         public StateMachine<AIStateEnum> StateMachine { get; private set; }
         

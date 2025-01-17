@@ -1,13 +1,8 @@
-using System;
 using Character;
-using Pattern;
-using ScriptableObjects.Character;
-using ScriptableObjects.Event;
-using Unity.VisualScripting;
+using Character.Data;
+using Event;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
-using UnityEngine.UIElements;
 
 namespace Gameplay.System.LevelUp
 {

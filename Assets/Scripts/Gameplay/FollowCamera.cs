@@ -1,6 +1,6 @@
 using Character;
-using ScriptableObjects.Character;
-using ScriptableObjects.Event;
+using Character.Data;
+using Event;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -10,7 +10,7 @@ namespace Gameplay
     [RequireComponent(typeof(CinemachineCamera))]
     public class FollowCamera : MonoBehaviour
     {
-        [SerializeField] private CharacterEvent playerSpawnedEvent;
+        [SerializeField] private CharacterEvent m_playerSpawnedEvent;
         
         private CinemachineCamera m_camera;
         private GameObject m_followTarget;
@@ -18,7 +18,7 @@ namespace Gameplay
         private void Awake()
         {
             enabled = false;
-            playerSpawnedEvent.onEventRaised += OnPlayerSpawned;
+            m_playerSpawnedEvent.onEventRaised += OnPlayerSpawned;
 
             m_camera = GetComponent<CinemachineCamera>();
             m_followTarget = new GameObject("CameraTarget");
