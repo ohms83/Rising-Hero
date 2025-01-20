@@ -30,6 +30,9 @@ namespace Character.Controller
 
         private void OnPerformMove(InputAction.CallbackContext context)
         {
+            if (ReferenceEquals(ControlledCharacter, null))
+                return;
+            
             var moveVec = context.ReadValue<Vector2>();
             if (moveVec.magnitude <= impulseTolerance)
                 return;
@@ -42,13 +45,15 @@ namespace Character.Controller
 
         private void OnCanceledMove(InputAction.CallbackContext context)
         {
+            if (ReferenceEquals(ControlledCharacter, null))
+                return;
             ControlledCharacter.Movement.MoveVector = Vector2.zero;
         #if DEBUG_PLAYER_CONTROLLER
             Debug.Log("Canceled");
         #endif
         }
 
-        private void EnableInput()
+        protected virtual void EnableInput()
         {
             var playerInput = GetComponent<PlayerInput>();
             var inputAction = playerInput.actions["Move"];
@@ -57,7 +62,7 @@ namespace Character.Controller
             playerInput.enabled = true;
         }
         
-        private void DisableInput()
+        protected virtual void DisableInput()
         {
             var playerInput = GetComponent<PlayerInput>();
             var inputAction = playerInput.actions["Move"];

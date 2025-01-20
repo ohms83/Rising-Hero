@@ -47,7 +47,7 @@ namespace Character
         /// <summary>
         /// Re-compute the CombinedStats
         /// </summary>
-        private void ComputeStats()
+        public void ComputeStats()
         {
             CombinedStats = Stats;
             foreach (var equipment in m_equipments.Values)
@@ -59,6 +59,8 @@ namespace Character
 
             if (healthDataBus != null)
                 healthDataBus.max = CombinedStats.MaxHealth;
+
+            Movement.MoveSpeed = Stats.MoveSpeed;
         }
 
         #endregion
@@ -109,9 +111,6 @@ namespace Character
         [Header("Events")]
         public UnityEvent<GameCharacter> onCharacterDestroyed;
         public UnityEvent<GameCharacter> onCharacterDeath;
-        
-        [SerializeField] private CharacterEvent m_characterSpawnedEvent;
-        [SerializeField] private CharacterEvent m_characterDeathEvent;
 
         #endregion
         

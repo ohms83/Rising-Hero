@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 749c491aea173ea4f9522b579db13726, type: 3}
+  m_Name: LevelUpRewardPool
+  m_EditorClassIdentifier: 
+  rewards:
+  - name: Health Up
+    description: +10 to Max Health
+    stats:
+      m_maxHealth: 10
+      m_attack: 0
+      m_defence: 0
+      m_moveSpeed: 0
+    skill: {fileID: 0}
+  - name: Attack Up
+    description: +5 to Attack
+    stats:
+      m_maxHealth: 0
+      m_attack: 5
+      m_defence: 0
+      m_moveSpeed: 0
+    skill: {fileID: 0}
+  - name: Defence Up
+    description: +2 to Defence
+    stats:
+      m_maxHealth: 0
+      m_attack: 0
+      m_defence: 2
+      m_moveSpeed: 0
+    skill: {fileID: 0}
+  - name: Move Speed Up
+    description: Move Speed increased by 10 percent
+    stats:
+      m_maxHealth: 0
+      m_attack: 0
+      m_defence: 0
+      m_moveSpeed: 0.2
+    skill: {fileID: 0}

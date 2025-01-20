@@ -31,3 +31,4 @@ MonoBehaviour:
       width: 1.4
       height: 1.3
   aiControllerPrefab: {fileID: 8921923189552382760, guid: dfeb597f1e724c446be535cc9ee26851, type: 3}
+  xp: 10

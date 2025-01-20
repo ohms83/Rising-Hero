@@ -37,7 +37,7 @@ namespace Pattern
     {
         private UnityAction<T> m_onEventRaised;
 
-        public void Broadcast(T param)
+        public virtual void Broadcast(T param)
         {
             m_onEventRaised?.Invoke(param);
         }
